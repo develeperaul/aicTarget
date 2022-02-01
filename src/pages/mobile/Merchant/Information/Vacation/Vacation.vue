@@ -68,20 +68,16 @@
     q-item
       q-item-section
         q-item-label
-          input(
+          file-input(
             ref="uploadScan"
-            type="file"
             accept="application/pdf"
             @change="scanSelect"
-            hidden
           )
-          input(
+          file-input(
             v-if="mode == 'spa'"
             ref="uploadPhoto"
-            type="file"
             accept="image/*"
             @change="fileSelect"
-            hidden
           )
           .row.items-center.justify-evenly.no-wrap
             q-btn.q-px-xl(

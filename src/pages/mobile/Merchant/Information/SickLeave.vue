@@ -99,14 +99,12 @@
           ) Размер фото не должен превышать 20 Мб
       q-item
         q-item-section
-          q-item-label
-            input(
+          q-item-label.relative-position
+            file-input(
               v-if="mode == 'spa'"
               ref="uploadFile"
-              type="file"
               accept="image/*"
               @change="fileSelect"
-              hidden
             )
             .row.items-center.justify-evenly.no-wrap
               q-btn.q-px-xl(

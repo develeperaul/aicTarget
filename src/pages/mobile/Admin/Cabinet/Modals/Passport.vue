@@ -263,14 +263,12 @@
                         use.q-pl-none(xlink:href="check-mark.svg#check-mark")
             q-item.q-pt-lg
               q-item-section
-                q-item-label
-                  input(
+                q-item-label.relative-position
+                  file-input(
                     v-if="mode == 'spa'"
                     ref="uploadFile"
-                    type="file"
                     accept="image/*"
                     @change="fileSelect"
-                    hidden
                   )
                   .row.items-center.justify-evenly.no-wrap
                     q-btn.q-px-xl(

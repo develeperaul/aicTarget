@@ -97,12 +97,10 @@
                       style="width: 29px"
                     )
                       q-icon(name="mdi-window-close" color="red-2" size="15px")
-                input(
+                file-input(
                   ref="uploadFile"
-                  type="file"
                   accept=".xlsb, .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                   @change="fileSelect"
-                  hidden
                 )
                 q-btn.q-my-sm.full-width(
                   v-if="excel === null"
