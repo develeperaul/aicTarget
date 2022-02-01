@@ -45,8 +45,7 @@
               //-           v-slot:append
               //-           v-if="isFull(all_data.work_card.experience)"
               //-         )
-              //-           svg.q-pl-none(width="12" height="8")
-              //-             use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+              //-
               q-item
                 q-item-section
                   q-item-label

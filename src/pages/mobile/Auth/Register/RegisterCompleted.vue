@@ -3,8 +3,7 @@
     q-item.q-pt-xl
       q-item-section
         q-item-label.text-center
-          svg(width="136" height="42")
-            use(xlink:href="acetarget.svg#logotype")
+          inline-svg(width="136" height="42" :src="require('assets/acetarget.svg')")
     q-item.q-mt-xl
       q-item-section
         q-item-label.text-center
@@ -36,12 +35,11 @@
             v-model="password"
           )
             template(v-slot:append)
-              svg.q-mr-sm(
+              inline-svg.q-mr-sm(
                 width="18"
                 height="22"
                 @click="copyText(password)"
-              )
-                use(xlink:href="copy.svg#copy")
+                :src="require('assets/copy.svg')")
     q-item
       q-item-section
         q-item-label

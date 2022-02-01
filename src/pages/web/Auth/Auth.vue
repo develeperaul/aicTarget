@@ -3,8 +3,7 @@
     q-item.q-pt-xl
       q-item-section
         q-item-label.text-center
-          svg(width="149" height="46")
-            use(xlink:href="acetarget-web.svg#logotype-web")
+          inline-svg(width="149" height="46" :src="require('assets/acetarget-web.svg')")
     q-item.q-mt-xl
       q-item-section
         q-item-label

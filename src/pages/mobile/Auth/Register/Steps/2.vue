@@ -21,15 +21,13 @@
               span
                 span.vertical-middle 01. Нажав на
                 span.vertical-middle
-                    svg.q-mx-sm(width="40" height="40")
-                      use(xlink:href="clip-bg-grey.svg#clip-bg-grey")
+                    inline-svg.q-mx-sm(width="40" height="40" :src="require('assets/clip-bg-grey.svg')")
                 span.vertical-middle загрузить фото из памяти телефона
             div.row.items-center
               span
                 span.vertical-middle 02. Нажав на
                 span.vertical-middle
-                  svg.q-mx-sm(width="40" height="40")
-                    use(xlink:href="camera-bg-grey.svg#camera-bg-grey")
+                  inline-svg.q-mx-sm(width="40" height="40" :src="require('assets/camera-bg-grey.svg')")
                 span.vertical-middle сделать фото
     q-item
       q-item-section

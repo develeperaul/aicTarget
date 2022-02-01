@@ -40,8 +40,7 @@
               )
                 template(v-slot:right)
                   q-icon(color="accent")
-                    svg
-                      use(xlink:href="undo-blue.svg#undo-blue")
+                    inline-svg(:src="require('assets/undo-blue.svg')")
 
                 q-item(
                   :to="{ name: 'message', params: {id: notify.id} }"

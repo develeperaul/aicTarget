@@ -114,8 +114,7 @@
                 q-item-label.row.justify-between.items-center
                   .row.no-wrap
                     .row.items-center.full-width.text-left(v-if="modal.questions[modal.index-1]")
-                      svg(width="9" height="17")
-                        use(xlink:href="go-back.svg#go-back")
+                      inline-svg(width="9" height="17" :src="require('assets/go-back.svg')")
                       span.q-ml-sm.text-blue.font-size-15(
                         @click="modal.index--"
                       ) Пред.
@@ -123,8 +122,7 @@
                       span.q-mr-sm.text-blue.font-size-15(
                         @click="modal.index++"
                       ) След.
-                      svg(width="9" height="17")
-                        use(xlink:href="go-next.svg#go-next")
+                      inline-svg(width="9" height="17" :src="require('assets/go-next.svg')")
                   .row
                     OriginalButton.shadow-0(
                       @click="addNewQuestion"
@@ -197,8 +195,7 @@
                 q-item-label
                   .row.no-wrap
                     .row.items-center.full-width.text-left(v-if="tests[testId].questions[testIdQuestId - 1]")
-                      svg(width="9" height="17")
-                        use(xlink:href="go-back.svg#go-back")
+                      inline-svg(width="9" height="17" :src="require('assets/go-back.svg')")
                       span.q-ml-sm.text-blue.font-size-15(
                         @click="testIdQuestId--"
                       ) Пред.
@@ -206,8 +203,7 @@
                       span.q-mr-sm.text-blue.font-size-15(
                         @click="testIdQuestId++"
                       ) След.
-                      svg(width="9" height="17")
-                        use(xlink:href="go-next.svg#go-next")
+                      inline-svg(width="9" height="17" :src="require('assets/go-next.svg')")
                   .row
                     OriginalButton.shadow-0(
                       @click="editAddNewQuestion"

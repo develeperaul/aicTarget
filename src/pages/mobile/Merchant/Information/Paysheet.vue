@@ -28,8 +28,7 @@
       q-item-section
         q-item-label.row.no-wrap.items-center
           div
-            svg(width="140" height="140")
-              use(xlink:href="paysheet.svg#paysheet")
+            inline-svg(width="140" height="140" :src="require('assets/paysheet.svg')")
           .text-weight-550.q-pl-md
             div Период расчетного
             div.row
