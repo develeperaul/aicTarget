@@ -1,0 +1,6 @@
+<svg width="20" height="20" viewBox="0 0 20 20" fill="#FFFFFF" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="attention">
+        <rect x="0.75" y="0.75" width="18.5" height="18.5" rx="9.25" stroke="#007AFF" stroke-width="1.5"/>
+        <path d="M10.6 5.744H9.014V8.409L9.417 12.439H10.184L10.6 8.396V5.744ZM10.652 13.349H8.962V15H10.652V13.349Z" fill="#007AFF"/>
+    </symbol>
+</svg>

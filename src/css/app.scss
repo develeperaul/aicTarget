@@ -1,0 +1,46 @@
+// app global css in SCSS form
+.text-weight-550 {
+    font-weight: 550;
+}
+.text-weight-400 {
+    font-weight: 400;
+}
+.font-size-12 {
+    font-size: 12px;
+}
+.font-size-13 {
+    font-size: 13px;
+}
+.font-size-15 {
+    font-size: 15px;
+}
+.font-size-22 {
+    font-size: 22px;
+}
+
+.q-dialog-padding-fixed {
+    & > div {
+        padding: 8px 16px !important;
+    }
+}
+
+.q-content-spinner {
+  padding: 70px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.q-card-selection {
+    border: 1px solid #007AFF;
+}
+.q-date__calendar-item button .block {
+  font-size: 17px;
+  line-height: 0px;
+}
+.lh {
+    line-height: 25.5px !important;
+}
+
+.wrap-important {
+    flex-wrap: wrap !important;
+}

@@ -1,0 +1,42 @@
+[
+    {
+        "id":1,
+        "title":"Основы мерчендайзинга",
+        "share_of_the_total":7000.36,
+        "plan":1,
+        "fact":1.1,
+        "interest_payment":0.1
+    },
+    {
+        "id":2,
+        "title":"Основы мерчендайзинга 2",
+        "share_of_the_total":6492.72,
+        "plan":1.2,
+        "fact":1.15,
+        "interest_payment":0.25
+    },
+    {
+        "id":3,
+        "title":"Основы мерчендайзинга 3",
+        "share_of_the_total":6942.25,
+        "plan":0.75,
+        "fact":0.65,
+        "interest_payment":0.07
+    },
+    {
+        "id":4,
+        "title":"Основы мерчендайзинга 4",
+        "share_of_the_total":3042.38,
+        "plan":2,
+        "fact":1.35,
+        "interest_payment":0.22
+    },
+    {
+        "id":5,
+        "title":"Основы мерчендайзинга 5",
+        "share_of_the_total":2053.54,
+        "plan":1,
+        "fact":0.67,
+        "interest_payment":0.35
+    }
+]
