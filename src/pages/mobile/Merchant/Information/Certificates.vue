@@ -77,7 +77,9 @@
                         label="Укажите период"
                         color="red"
                         ref="dataTarget"
-                        :value="displayedPeriod"
+                        @clear="clearInput"
+                        mask="##.##.#### - ##.##.####"
+                        v-model="displayedPeriod"
                       )
                       q-date.full-width(
                         flat
@@ -136,7 +138,7 @@ import HeaderSettings from 'components/HeaderSettings'
 import Api from 'modules/api'
 const api = new Api('User')
 import _ from 'lodash'
-
+// import moment from 'moment'
 export default {
   components: { OriginalButton, InactiveButton, HeaderSettings },
   data: () => ({
@@ -184,7 +186,35 @@ export default {
       return false
     }
   },
+  watch: {
+    displayedPeriod: {
+
+      handler (val) {
+        const current = Date.now()
+        const from = new Date(val?.split('-')[0]?.trim().split('.').reverse().join('-')).getTime()
+        const to = new Date(val?.split('-')[1]?.trim().split('.').reverse().join('-')).getTime()
+        if (!isNaN(from) && from < current && !isNaN(to) && to <= current && val.split('-')[0]?.trim().length === 10 && val.split('-')[1]?.trim().length === 10) {
+          console.log(current)
+          console.log(to)
+          this.period = {
+            from: val.split('-')[0]?.trim(),
+            to: val.split('-')[1]?.trim()
+          }
+          this.setDisplayedPeriod()
+        }
+        // if (isNaN(from)) {
+        //   // this.clearInput()
+        //   console.log(val)
+        //   this.displayedPeriod = ''
+        //   this.period = {}
+        // }
+      }
+    }
+  },
   methods: {
+    clearInput (v) {
+      console.log(v)
+    },
     logOut () {
       this.$q.localStorage.remove('token')
       this.$router.push('/auth')
@@ -224,6 +254,10 @@ export default {
     }
   },
   mounted () {
+    // const date = new Date()
+    // console.log(date)
+    // moment.now = function () { return +new Date(moment().format('YYYY-MM-DD')) }
+
   }
 }
 </script>

@@ -43,12 +43,12 @@
           )
             | Запрос расчётного листа
             q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
-      q-item.no-padding
-        q-item-section
-          q-item-label
-            router-link.q-py-lg.row.justify-between.items-center.no-wrap(tag="span",to="/home/merchant/information/bonuses")
-              | Запрос информации по бонусам и доплатам
-              q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
+      //- q-item.no-padding
+      //-   q-item-section
+      //-     q-item-label
+      //-       router-link.q-py-lg.row.justify-between.items-center.no-wrap(tag="span",to="/home/merchant/information/bonuses")
+      //-         | Запрос информации по бонусам и доплатам
+      //-         q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
       q-item.no-padding
         q-item-section
           q-item-label
