@@ -149,8 +149,7 @@
     //-           v-slot:append
     //-           v-if="isFull(fullname)"
     //-         )
-    //-           svg.q-pl-none(width="12" height="8")
-    //-             use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+    //-
     //- q-item
     //-   q-item-section
     //-     q-item-label
@@ -206,8 +205,7 @@
     //-           v-slot:append
     //-           v-if="isFull(seriesAndNumber)"
     //-         )
-    //-           svg.q-pl-none(width="12" height="8")
-    //-             use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+    //-
     //- q-item
     //-   q-item-section
     //-     q-item-label
@@ -222,8 +220,7 @@
     //-           v-slot:append
     //-           v-if="isFull(placeOfIssue)"
     //-         )
-    //-           svg.q-pl-none(width="12" height="8")
-    //-             use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+    //-
     //- q-item
     //-   q-item-section
     //-     q-item-label
@@ -243,8 +240,7 @@
     //-           v-slot:append
     //-           v-if="isFull(phone)"
     //-         )
-    //-           svg.q-pl-none(width="12" height="8")
-    //-             use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+    //-
     //- q-item
     //-   q-item-section
     //-     q-item-label
@@ -259,8 +255,7 @@
     //-           v-slot:append
     //-           v-if="isFull(email)"
     //-         )
-    //-           svg.q-pl-none(width="12" height="8")
-    //-             use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+    //-
     q-footer.bg-white.footer-header.row.items-center(
       bordered
      )

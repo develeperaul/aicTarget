@@ -68,20 +68,16 @@
     q-item
       q-item-section
         q-item-label
-          input(
+          file-input(
             ref="uploadScan"
-            type="file"
             accept="application/pdf"
             @change="scanSelect"
-            hidden
           )
-          input(
+          file-input(
             v-if="mode == 'spa'"
             ref="uploadPhoto"
-            type="file"
             accept="image/*"
             @change="fileSelect"
-            hidden
           )
           .row.items-center.justify-evenly.no-wrap
             q-btn.q-px-xl(
@@ -91,8 +87,7 @@
               :color="images.length > 9 ? 'grey-1' : 'white'"
               :class="{'shadow-7': images.length <= 9}"
             )
-              svg(width="22" height="22")
-                use(:xlink:href="images.length <= 9 ? 'clip.svg#clip' : 'white-clip.svg#white-clip'")
+              inline-svg(width="22" height="22" :src="images.length <= 9 ? require('assets/clip.svg') : require('assets/white-clip.svg')")
             q-btn.q-px-xl.q-ml-sm(
               @click="mode == 'spa' ? $refs.uploadPhoto.click() : photoCamera()"
               padding="md lg"
@@ -100,8 +95,7 @@
               :color="images.length > 9 ? 'grey-1' : 'white'"
               :class="{'shadow-7': images.length <= 9}"
             )
-              svg(width="24" height="22")
-                use(:xlink:href="images.length <= 9 ? 'camera.svg#camera' : 'white-camera.svg#white-camera'")
+              inline-svg(width="24" height="22" :src="images.length <= 9 ? require('assets/camera.svg') : require('assets/white-camera.svg')")
     q-dialog(
       content-class="q-dialog-padding-fixed"
       v-model="downloadDialog.open"
@@ -146,8 +140,7 @@
               .button-remove(
                 @click="onRemoveImg(key)"
               )
-                svg(width="21" height="24")
-                  use(xlink:href="delete.svg#delete")
+                inline-svg(width="21" height="24" :src="require('assets/delete.svg')")
         .text-grey-6(
           v-else
         ) Размер фото не должен превышать 20 Мб

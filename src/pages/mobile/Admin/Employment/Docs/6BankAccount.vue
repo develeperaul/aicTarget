@@ -47,8 +47,7 @@
                       v-slot:append
                       v-if="isFull(all_data.bank_account.bank_card)"
                     )
-                      svg.q-pl-none(width="12" height="8")
-                        use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+                      inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
             q-item
               q-item-section
                 q-item-label
@@ -63,8 +62,7 @@
                       v-slot:append
                       v-if="isFull(all_data.bank_account.payment_number)"
                     )
-                      svg.q-pl-none(width="12" height="8")
-                        use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+                      inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
             q-item
               q-item-section
                 q-item-label
@@ -79,8 +77,7 @@
                       v-slot:append
                       v-if="isFull(all_data.bank_account.last_name)"
                     )
-                      svg.q-pl-none(width="12" height="8")
-                        use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+                      inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
             q-item
               q-item-section
                 q-item-label
@@ -95,8 +92,7 @@
                       v-slot:append
                       v-if="isFull(all_data.bank_account.first_name)"
                     )
-                      svg.q-pl-none(width="12" height="8")
-                        use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+                      inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
             q-item
               q-item-section
                 q-item-label
@@ -111,8 +107,7 @@
                       v-slot:append
                       v-if="isFull(all_data.bank_account.patronymic)"
                     )
-                      svg.q-pl-none(width="12" height="8")
-                        use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+                      inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
             q-item
               q-item-section
                 q-item-label
@@ -127,8 +122,7 @@
                       v-slot:append
                       v-if="isFull(all_data.bank_account.bik)"
                     )
-                      svg.q-pl-none(width="12" height="8")
-                        use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+                      inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
             q-item
               q-item-section
                 q-item-label
@@ -143,8 +137,7 @@
                       v-slot:append
                       v-if="isFull(all_data.bank_account.inn)"
                     )
-                      svg.q-pl-none(width="12" height="8")
-                        use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+                      inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
             q-item
               q-item-section
                 q-item-label
@@ -159,8 +152,7 @@
                       v-slot:append
                       v-if="isFull(all_data.bank_account.bank_name)"
                     )
-                      svg.q-pl-none(width="12" height="8")
-                        use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+                      inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
             q-item
               q-item-section
                 q-item-label

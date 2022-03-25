@@ -314,21 +314,17 @@
                   )
             q-item
               q-item-section
-                q-item-label
-                  input(
+                q-item-label.relative-position
+                  file-input(
                     ref="uploadFile"
-                    type="file"
                     accept=".doc, .docx, application/msword, application/vnd.ms-excel, .xls, .xlsx, application/pdf, application/vnd.ms-powerpoint, .ppt, .pptx, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                     @change="() => fileSelect('doc')"
-                    hidden
                   )
-                  input(
+                  file-input(
                     v-if="mode == 'spa'"
                     ref="uploadPhoto"
-                    type="file"
                     accept="image/*"
                     @change="() => fileSelect('photo')"
-                    hidden
                   )
                   .q-pt-sm.row.q-col-gutter-sm.justify-between
                     .col-6
@@ -336,15 +332,13 @@
                         padding="md lg"
                         @click="downloadDialog.open = true"
                       )
-                        svg(width="22" height="22")
-                          use(xlink:href="clip.svg#clip")
+                        inline-svg(width="22" height="22" :src="require('assets/clip.svg')")
                     .col-6
                       q-btn.col-6.shadow-7.full-width(
                         @click="mode == 'spa' ? $refs.uploadPhoto.click() : photoCamera()"
                         padding="md lg"
                       )
-                        svg(width="24" height="22")
-                          use(xlink:href="camera.svg#camera")
+                      inline-svg(width="24" height="22" :src="require('assets/camera.svg')")
             q-dialog(
               content-class="q-dialog-padding-fixed"
               v-model="downloadDialog.open"
@@ -614,21 +608,17 @@
                   ) Вложить ссылки
             q-item
               q-item-section
-                q-item-label
-                  input(
+                q-item-label.relative-position
+                  file-input(
                     ref="uploadFileEdit"
-                    type="file"
                     accept=".doc, .docx, application/msword, application/vnd.ms-excel, .xls, .xlsx, application/pdf, application/vnd.ms-powerpoint, .ppt, .pptx, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                     @change="() => fileSelectEdit('doc')"
-                    hidden
                   )
-                  input(
+                  file-input(
                     v-if="mode == 'spa'"
                     ref="uploadPhotoEdit"
-                    type="file"
                     accept="image/*"
                     @change="() => fileSelectEdit('photo')"
-                    hidden
                   )
                   .q-pt-sm.row.q-col-gutter-sm.justify-between
                     .col-6
@@ -636,15 +626,13 @@
                         padding="md lg"
                         @click="downloadDialogEdit.open = true"
                       )
-                        svg(width="22" height="22")
-                          use(xlink:href="clip.svg#clip")
+                        inline-svg(width="22" height="22" :src="require('assets/clip.svg')")
                     .col-6
                       q-btn.col-6.shadow-7.full-width(
                         @click="mode == 'spa' ? $refs.uploadPhotoEdit.click() : photoCameraEdit()"
                         padding="md lg"
                       )
-                        svg(width="24" height="22")
-                          use(xlink:href="camera.svg#camera")
+                        inline-svg(width="24" height="22" :src="require('assets/camera.svg')")
             q-dialog(
               content-class="q-dialog-padding-fixed"
               v-model="downloadDialogEdit.open"

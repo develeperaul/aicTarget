@@ -2,8 +2,7 @@
   .text-blue.font-size-15.q-pt-xs(
     @click="click()"
   )
-    svg.leftimg(width="9" height="17")
-      use(xlink:href="go-back.svg#go-back")
+    inline-svg.leftimg(width="9" height="17" :src="require('assets/go-back.svg')")
     span {{ title }}
 </template>
 

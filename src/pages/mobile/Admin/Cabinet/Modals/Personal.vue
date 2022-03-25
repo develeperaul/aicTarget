@@ -39,8 +39,7 @@
                       v-slot:append
                       v-if="isFull(modal.inputs.last_name)"
                     )
-                      svg.q-pl-none(width="12" height="8")
-                        use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+                      inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
             q-item
               q-item-section
                 q-item-label
@@ -59,8 +58,7 @@
                       v-slot:append
                       v-if="isFull(modal.inputs.first_name)"
                     )
-                      svg.q-pl-none(width="12" height="8")
-                        use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+                      inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
             q-item.q-pt-lg
               q-item-section
                 q-item-label.text-h7

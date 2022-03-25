@@ -50,15 +50,13 @@
             q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
       q-item.no-padding
         q-item-section
-          q-item-label.q-py-lg.row.justify-between.items-center.no-wrap
-            input(
+          q-item-label.q-py-lg.row.justify-between.items-center.no-wrap.relative-position
+            file-input(
               ref="uploadFile"
-              type="file"
               accept=".xlsb, .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
               @change="() => fileSelect('doc')"
-              hidden
             )
-            span(@click="$refs.uploadFile.click()")
+            span
               //- router-link(tag="span",to="/home/admin/edit-paysheet")
                 //- | Корректировать список полей для расчетного листка
               | Загрузить список бонусов

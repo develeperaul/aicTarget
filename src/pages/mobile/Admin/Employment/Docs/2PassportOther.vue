@@ -45,8 +45,7 @@
             //-           v-slot:append
             //-           v-if="isFull(all_data.last_name)"
             //-         )
-            //-           svg.q-pl-none(width="12" height="8")
-            //-             use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+            //-
             //- q-item
             //-   q-item-section
             //-     q-item-label
@@ -61,8 +60,7 @@
             //-           v-slot:append
             //-           v-if="isFull(all_data.first_name)"
             //-         )
-            //-           svg.q-pl-none(width="12" height="8")
-            //-             use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+            //-
             //- q-item
             //-   q-item-section
             //-     q-item-label
@@ -77,8 +75,7 @@
             //-           v-slot:append
             //-           v-if="isFull(all_data.patronymic)"
             //-         )
-            //-           svg.q-pl-none(width="12" height="8")
-            //-             use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+            //-
             //- q-item
             //-   q-item-section
             //-     q-item-label
@@ -130,8 +127,7 @@
             //-           v-slot:append
             //-           v-if="isFull(all_data.passport_id)"
             //-         )
-            //-           svg.q-pl-none(width="12" height="8")
-            //-             use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+            //-
             //- q-item
             //-   q-item-section
             //-     q-item-label
@@ -182,8 +178,7 @@
             //-           v-slot:append
             //-           v-if="isFull(all_data.place_of_birth)"
             //-         )
-            //-           svg.q-pl-none(width="12" height="8")
-            //-             use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+            //-
             //- q-item
             //-   q-item-section
             //-     q-item-label
@@ -199,8 +194,7 @@
             //-           v-slot:append
             //-           v-if="isFull(all_data.code_subdivision)"
             //-         )
-            //-           svg.q-pl-none(width="12" height="8")
-            //-             use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+            //-
             //- q-item
             //-   q-item-section
             //-     q-item-label
@@ -215,8 +209,7 @@
             //-           v-slot:append
             //-           v-if="isFull(all_data.name_of_passport_creator)"
             //-         )
-            //-           svg.q-pl-none(width="12" height="8")
-            //-             use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+            //-
             //- q-item
             //-   q-item-section
             //-     q-item-label
@@ -231,8 +224,7 @@
             //-           v-slot:append
             //-           v-if="isFull(all_data.place_of_live)"
             //-         )
-            //-           svg.q-pl-none(width="12" height="8")
-            //-             use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+            //-
             q-item
               q-item-section
                 q-item-label

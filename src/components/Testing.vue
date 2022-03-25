@@ -47,8 +47,8 @@
                   v-slot:append
                   v-if="isFull(all_data.passport.last_name)"
                 )
-                  svg.q-pl-none(width="12" height="8")
-                    use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+                  inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
+
         q-item
           q-item-section
             q-item-label
@@ -63,8 +63,8 @@
                   v-slot:append
                   v-if="isFull(all_data.passport.first_name)"
                 )
-                  svg.q-pl-none(width="12" height="8")
-                    use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+                  inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
+
         q-item
           q-item-section
             q-item-label
@@ -79,8 +79,8 @@
                   v-slot:append
                   v-if="isFull(all_data.passport.patronymic)"
                 )
-                  svg.q-pl-none(width="12" height="8")
-                    use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+                  inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
+
         q-item
           q-item-section
             q-item-label
@@ -132,8 +132,8 @@
                   v-slot:append
                   v-if="isFull(all_data.passport.passport_id)"
                 )
-                  svg.q-pl-none(width="12" height="8")
-                    use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+                  inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
+
         q-item
           q-item-section
             q-item-label
@@ -184,8 +184,8 @@
                   v-slot:append
                   v-if="isFull(all_data.passport.place_of_birth)"
                 )
-                  svg.q-pl-none(width="12" height="8")
-                    use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+                  inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
+
         q-item
           q-item-section
             q-item-label
@@ -201,8 +201,8 @@
                   v-slot:append
                   v-if="isFull(all_data.passport.code_subdivision)"
                 )
-                  svg.q-pl-none(width="12" height="8")
-                    use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+                  inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
+
         q-item
           q-item-section
             q-item-label
@@ -217,8 +217,8 @@
                   v-slot:append
                   v-if="isFull(all_data.passport.name_of_passport_creator)"
                 )
-                  svg.q-pl-none(width="12" height="8")
-                    use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+                  inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
+
         q-item
           q-item-section
             q-item-label
@@ -233,8 +233,8 @@
                   v-slot:append
                   v-if="isFull(all_data.passport.place_of_live)"
                 )
-                  svg.q-pl-none(width="12" height="8")
-                    use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+                  inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
+
 </template>
 <script>
 // import croppa from 'vue-croppa'

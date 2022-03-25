@@ -47,8 +47,7 @@
               v-slot:append
               v-if="isFull(passport.last_name)"
             )
-              svg.q-pl-none(width="12" height="8")
-                use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+              inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
     q-item
       q-item-section
         q-item-label
@@ -63,8 +62,7 @@
               v-slot:append
               v-if="isFull(passport.first_name)"
             )
-              svg.q-pl-none(width="12" height="8")
-                use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+              inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
     q-item
       q-item-section
         q-item-label
@@ -79,8 +77,7 @@
               v-slot:append
               v-if="isFull(passport.patronymic)"
             )
-              svg.q-pl-none(width="12" height="8")
-                use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+              inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
     q-item
       q-item-section
         q-item-label
@@ -134,8 +131,7 @@
               v-slot:append
               v-if="isFull(passport.passport_id)"
             )
-              svg.q-pl-none(width="12" height="8")
-                use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+              inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
     q-item
       q-item-section
         q-item-label
@@ -150,8 +146,7 @@
               v-slot:append
               v-if="isFull(passport.name_of_passport_creator)"
             )
-              svg.q-pl-none(width="12" height="8")
-                use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+              inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
     q-item
       q-item-section
         q-item-label
@@ -171,8 +166,7 @@
               v-slot:append
               v-if="isFull(phone_number)"
             )
-              svg.q-pl-none(width="12" height="8")
-                use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+              inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
     q-item
       q-item-section
         q-item-label
@@ -187,8 +181,7 @@
               v-slot:append
               v-if="isFull(email)"
             )
-              svg.q-pl-none(width="12" height="8")
-                use.q-pl-none(xlink:href="check-mark.svg#check-mark")
+              inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
     q-dialog(
       content-class="q-dialog-padding-fixed"
       v-model="dialog.open"

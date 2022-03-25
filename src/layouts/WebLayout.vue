@@ -9,8 +9,7 @@
           dense
           aria-label="Menu"
         )
-          svg(width="149" height="46")
-            use(xlink:href="acetarget-web.svg#logotype-web")
+          inline-svg(width="149" height="46" :src="require('assets/acetarget-web.svg')")
         q-toolbar-title
         .col
           .row.items-center.no-wrap.justify-end

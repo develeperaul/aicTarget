@@ -64,13 +64,11 @@
           q-btn.q-px-xl.shadow-7(
             padding="md lg"
           )
-            svg(width="22" height="22")
-              use(xlink:href="clip.svg#clip")
+            inline-svg(width="22" height="22" :src="require('assets/clip.svg')")
           q-btn.q-px-xl.q-ml-sm.shadow-7(
             padding="md lg"
           )
-            svg(width="24" height="22")
-              use(xlink:href="camera.svg#camera")
+            inline-svg(width="24" height="22" :src="require('assets/camera.svg')")
 </template>
 <script>
 
