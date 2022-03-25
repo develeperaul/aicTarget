@@ -70,7 +70,9 @@
                         label="Укажите период"
                         color="red"
                         ref="dataTarget"
-                        :value="displayedPeriod"
+
+                        mask="##.##.#### - ##.##.####"
+                        v-model="displayedPeriod"
                       )
                       q-date.full-width(
                         flat
@@ -199,6 +201,31 @@ export default {
     }
   },
   mounted () {
+  },
+  watch: {
+    displayedPeriod: {
+
+      handler (val) {
+        const current = Date.now()
+        const from = new Date(val?.split('-')[0]?.trim().split('.').reverse().join('-')).getTime()
+        const to = new Date(val?.split('-')[1]?.trim().split('.').reverse().join('-')).getTime()
+        if (!isNaN(from) && from < current && !isNaN(to) && to <= current && val.split('-')[0]?.trim().length === 10 && val.split('-')[1]?.trim().length === 10) {
+          console.log(current)
+          console.log(to)
+          this.period = {
+            from: val.split('-')[0]?.trim(),
+            to: val.split('-')[1]?.trim()
+          }
+          this.setDisplayedPeriod()
+        }
+        // if (isNaN(from)) {
+        //   // this.clearInput()
+        //   console.log(val)
+        //   this.displayedPeriod = ''
+        //   this.period = {}
+        // }
+      }
+    }
   }
 }
 </script>

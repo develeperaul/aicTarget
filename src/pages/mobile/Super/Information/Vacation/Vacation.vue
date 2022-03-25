@@ -27,7 +27,7 @@
         q-item-section
           q-item-label
             router-link.q-py-lg.row.justify-between.items-center.no-wrap(tag="span",to="/home/merchant/information/vacation/payments")
-              | Получить информацию по периодам ежегодного отпуска, а также по начисленным отпускным
+              | Получить информацию по периодам ежегодного отпуска
               q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
       q-item.no-padding
         q-item-section

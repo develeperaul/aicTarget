@@ -34,7 +34,7 @@
         q-item-section
           q-item-label
             router-link.q-py-lg.row.justify-between.items-center.no-wrap(tag="span",to="/home/merchant/information/vacation/payments")
-              | Получить информацию по периодам ежегодного отпуска, а также по начисленным отпускным
+              | Получить информацию по периодам ежегодного отпуска
               q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
       //- q-item.no-padding
       //-   q-item-section
@@ -319,15 +319,18 @@ export default {
     },
 
     async photoCamera () {
-      const image = await Camera.getPhoto({
-        source: CameraSource.Camera,
-        quality: 90,
-        allowEditing: true,
-        resultType: CameraResultType.DataUrl
-      })
-
-      // console.log(image)
-      this.images.push(image.dataUrl)
+      await navigator.camera.getPicture(
+        data => { // on success
+          console.log(data)
+          this.images.push(`data:image/jpeg;base64,${data}`)
+        },
+        () => { // on fail
+          this.$q.notify('Could not access device camera.')
+        },
+        {
+          destinationType: 0
+        }
+      )
     },
     downloadFile (path) {
       // console.log(this.$axios.defaults.baseURL)

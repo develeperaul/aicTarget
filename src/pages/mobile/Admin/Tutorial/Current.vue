@@ -1204,16 +1204,21 @@ export default {
 
       this.downloadDialog.open = false
     },
-    async photoSelect () {
-      const image = await Camera.getPhoto({
-        source: CameraSource.Photos,
-        quality: 90,
-        resultType: CameraResultType.DataUrl
-      })
-
-      this.new_tutorial.images.push(image.dataUrl)
-
-      this.downloadDialog.open = false
+    async photoCamera () {
+      navigator.camera.getPicture(
+        data => { // on success
+          console.log(data)
+          this.new_tutorial.images.push(`data:image/jpeg;base64,${data}`)
+          this.downloadDialog.open = false
+          console.log(this.images)
+        },
+        () => { // on fail
+          this.$q.notify('Could not access device camera.')
+        },
+        {
+          destinationType: 0
+        }
+      )
     },
     async photoSelectEdit () {
       const image = await Camera.getPhoto({
@@ -1225,16 +1230,6 @@ export default {
       this.edit_tutorial.photos.push(image.dataUrl)
 
       this.downloadDialog.open = false
-    },
-    async photoCamera () {
-      const image = await Camera.getPhoto({
-        source: CameraSource.Camera,
-        quality: 90,
-        allowEditing: true,
-        resultType: CameraResultType.DataUrl
-      })
-
-      this.new_tutorial.images.push(image.dataUrl)
     },
     async photoCameraEdit () {
       const image = await Camera.getPhoto({

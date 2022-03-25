@@ -1,8 +1,8 @@
 {
   "params": {
     "skipTrim": true,
-    "icon": "public/logo.png",
-    "background": "public/splash.png",
+    "icon": "./public/logo.png",
+    "background": "./public/splash.png",
     "splashscreenIconRatio": "0",
     "padding": [
       0,

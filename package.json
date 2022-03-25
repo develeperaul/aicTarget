@@ -1,6 +1,6 @@
 {
   "name": "ace-target",
-  "version": "1.0.0",
+  "version": "0.0.6",
   "description": "Приложение для работы мерчендайзеров, супервайзеров, координаторов и отдела кадров компании Ace Target",
   "productName": "Ace Target",
   "author": "",
@@ -12,6 +12,7 @@
   "dependencies": {
     "@capacitor/core": "^2.4.7",
     "@quasar/extras": "^1.0.0",
+    "@quasar/icongenie": "^2.5.0",
     "axios": "^0.18.1",
     "core-js": "^3.6.5",
     "dotenv": "^8.2.0",

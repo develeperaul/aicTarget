@@ -54,17 +54,6 @@
       q-item-section
         q-item-label
           .q-pt-lg.text-grey После запроса, Вы будете перемещены на стартовый экран с информацией о сумме выплат за выбранные периоды
-    q-item
-      q-item-section
-        q-item-label
-          OriginalButton(
-            v-if="everythingIsFull()"
-            color="red-2"
-            to="#"
-          ) Запросить сумму выплат
-          InactiveButton(
-            v-else
-          ) Запросить сумму выплат
 </template>
 <script>
 import OriginalButton from 'components/OriginalButton.vue'

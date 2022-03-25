@@ -1,20 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="ace.target.app" version="0.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="ace.target.app" version="0.0.6" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Ace Target</name>
     <description>Приложение для работы мерчендайзеров, супервайзеров, координаторов и отдела кадров компании Ace Target</description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
+    <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
         Apache Cordova Team
     </author>
     <content src="index.html" />
-    <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
-    <allow-intent href="tel:*" />
-    <allow-intent href="sms:*" />
-    <allow-intent href="mailto:*" />
-    <allow-intent href="geo:*" />
-    <platform name="android">
-        <allow-intent href="market:*" />
+    <preference name="SplashMaintainAspectRatio" value="true" />
+    <platform>
         <icon density="ldpi" src="res/android/ldpi.png" />
         <icon density="mdpi" src="res/android/mdpi.png" />
         <icon density="hdpi" src="res/android/hdpi.png" />
@@ -34,9 +29,7 @@
         <splash density="land-xxxhdpi" src="res/screen/android/splash-land-xxxhdpi.png" />
         <splash density="port-xxxhdpi" src="res/screen/android/splash-port-xxxhdpi.png" />
     </platform>
-    <platform name="ios">
-        <allow-intent href="itms:*" />
-        <allow-intent href="itms-apps:*" />
+    <platform>
         <icon height="57" src="res/ios/icon.png" width="57" />
         <icon height="114" src="res/ios/icon@2x.png" width="114" />
         <icon height="40" src="res/ios/icon-20@2x.png" width="40" />
@@ -71,6 +64,5 @@
         <splash src="res/screen/ios/Default@2x~ipad~anyany.png" />
         <splash src="res/screen/ios/Default@2x~ipad~comany.png" />
     </platform>
-    <preference name="SplashMaintainAspectRatio" value="true" />
     <allow-navigation href="about:*" />
 </widget>

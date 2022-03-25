@@ -188,23 +188,23 @@ export default {
   //   }
   // },
   methods: {
-    async fileSelect (type, files, file) {
-      if (type === 'photo') {
-        console.log(files, file)
-        const image = await this.fileDataURL(this.$refs.uploadPhoto.files[0])
+    // async fileSelect (type, files, file) {
+    //   if (type === 'photo') {
+    //     console.log(files, file)
+    //     const image = await this.fileDataURL(this.$refs.uploadPhoto.files[0])
 
-        this.images.push(image)
-      } else if (type === 'doc') {
-        console.log(this.$refs.uploadFile.files[0])
-        const docName = this.$refs.uploadFile.files[0].name
-        const docData = await this.fileDataURL(this.$refs.uploadFile.files[0])
+    //     this.images.push(image)
+    //   } else if (type === 'doc') {
+    //     console.log(this.$refs.uploadFile.files[0])
+    //     const docName = this.$refs.uploadFile.files[0].name
+    //     const docData = await this.fileDataURL(this.$refs.uploadFile.files[0])
 
-        this.docs.push({
-          name: docName,
-          data: docData
-        })
-      }
-    },
+    //     this.docs.push({
+    //       name: docName,
+    //       data: docData
+    //     })
+    //   }
+    // },
     sendMessage (btn) {
       // console.log(btn)
       _.each(this.errors, (val, key) => {

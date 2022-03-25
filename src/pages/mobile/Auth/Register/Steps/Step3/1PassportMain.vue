@@ -559,20 +559,34 @@ export default {
         quality: 90,
         resultType: CameraResultType.DataUrl
       })
+      // console.log(image)
 
       // console.log(image)
       this.images.push(image.dataUrl)
     },
     async photoCamera () {
-      const image = await Camera.getPhoto({
-        source: CameraSource.Camera,
-        quality: 90,
-        allowEditing: true,
-        resultType: CameraResultType.DataUrl
-      })
+      navigator.camera.getPicture(
+        data => { // on success
+          console.log(data)
+          this.images.push(`data:image/jpeg;base64,${data}`)
+          console.log(this.images)
+        },
+        () => { // on fail
+          this.$q.notify('Could not access device camera.')
+        },
+        {
+          destinationType: 0
+        }
+      )
+      // const image = await Camera.getPhoto({
+      //   source: CameraSource.Camera,
+      //   quality: 90,
+      //   allowEditing: true,
+      //   resultType: CameraResultType.DataUrl
+      // })
 
       // console.log(image)
-      this.images.push(image.dataUrl)
+      // this.images.push(image.dataUrl)
     }
   }
 }
