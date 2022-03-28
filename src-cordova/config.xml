@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="ace.target.app" version="0.0.6" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="ace.target.app" version="1.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Ace Target</name>
     <description>Приложение для работы мерчендайзеров, супервайзеров, координаторов и отдела кадров компании Ace Target</description>
     <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
@@ -29,8 +29,19 @@
         <splash density="land-xxxhdpi" src="res/screen/android/splash-land-xxxhdpi.png" />
         <splash density="port-xxxhdpi" src="res/screen/android/splash-port-xxxhdpi.png" />
     </platform>
-
     <platform name="ios">
+        <edit-config file="*-Info.plist" mode="merge" target="NSCameraUsageDescription">
+            <string>Приложение запрашивает доступ к камере, чтобы загружать документы</string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryUsageDescription">
+            <string>Приложение запрашивает доступ к фото, чтобы загружать документы</string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
+            <string>Приложение запрашивает доступ к локации, чтобы загружать документы</string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryAddUsageDescription">
+            <string>Приложение запрашивает доступ к фото, чтобы загружать документы</string>
+        </edit-config>
         <preference name="DisallowOverscroll" value="true" />
         <preference name="WKWebViewOnly" value="true" />
         <feature name="CDVWKWebViewEngine">
