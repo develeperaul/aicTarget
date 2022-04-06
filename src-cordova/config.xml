@@ -30,6 +30,18 @@
         <splash density="port-xxxhdpi" src="res/screen/android/splash-port-xxxhdpi.png" />
     </platform>
     <platform name="ios">
+        <edit-config file="*-Info.plist" mode="merge" target="NSCameraUsageDescription">
+            <string>Приложение запрашивает доступ к камере, чтобы загружать документы</string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryUsageDescription">
+            <string>Приложение запрашивает доступ к фото, чтобы загружать документы</string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
+            <string>Приложение запрашивает доступ к локации, чтобы загружать документы</string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryAddUsageDescription">
+            <string>Приложение запрашивает доступ к фото, чтобы загружать документы</string>
+        </edit-config>
         <preference name="DisallowOverscroll" value="true" />
         <preference name="WKWebViewOnly" value="true" />
         <feature name="CDVWKWebViewEngine">
