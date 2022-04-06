@@ -132,12 +132,12 @@
                 ) Отмена
 </template>
 <script>
-import OriginalButton from 'components/OriginalButton.vue'
-import InactiveButton from 'components/InactiveButton.vue'
-import HeaderSettings from 'components/HeaderSettings'
-import Api from 'modules/api'
-const api = new Api('User')
-import _ from 'lodash'
+import OriginalButton from "components/OriginalButton.vue";
+import InactiveButton from "components/InactiveButton.vue";
+import HeaderSettings from "components/HeaderSettings";
+import Api from "modules/api";
+const api = new Api("User");
+import _ from "lodash";
 // import moment from 'moment'
 export default {
   components: { OriginalButton, InactiveButton, HeaderSettings },
@@ -149,58 +149,124 @@ export default {
     certificates: [
       {
         open: false,
-        name: '2-НДФЛ (справка о доходах физического лица)'
+        name: "2-НДФЛ (справка о доходах физического лица)"
       },
       {
         open: false,
-        name: '182-Н (справка с места работы)'
+        name: "Справка 182н (только уволенным сотрудникам)"
       },
       {
         open: false,
-        name: 'Справка для расчета пособий/справка о доходах (для сотрудников в декрете)'
+        name: "Справка с места работы"
       },
       {
         open: false,
-        name: 'Справка о неполучении родителем пособия'
+        name:
+          "Справка о доходах (для сотрудников в декрете) за 3, 6, 12 месяцев"
       },
       {
         open: false,
-        name: 'Справка для центра занятости'
+        name: "Справка о нахождении в декретном отпуске"
+      },
+
+      {
+        open: false,
+        name: "Справка о том, что сотрудник находится в отпуске до 3-х лет"
       },
       {
         open: false,
-        name: 'Справка для предоставления субсидий'
+        name:
+          "Справка о том, что сотрудник не находится в отпуске по уходу за ребенком до 3-х лет и не получает пособие до 1,5 лет"
+      },
+      {
+        open: false,
+        name:
+          "Справка о неполучении единовременного пособия при рождении, пособия по уходу за ребенком до 1,5 лет"
+      },
+      {
+        open: false,
+        name: "Справка для центра занятости (уволенные сотрудники)"
+      },
+      {
+        open: false,
+        name: "Справка, что сотрудник не получает материальную помощь на детей"
+      },
+      {
+        open: false,
+        name:
+          "Справка о том, что сотрудник получал / не получал оплату по листку нетрудоспособности"
+      },
+      {
+        open: false,
+        name: "Справка о предоставлении субсидий"
       }
+
+      //- {
+      //-   open: false,
+      //-   name: 'Справка для расчета пособий/справка о доходах (для сотрудников в декрете)'
+      //- },
+      //- {
+      //-   open: false,
+      //-   name: 'Справка о неполучении родителем пособия'
+      //- },
+      //- {
+      //-   open: false,
+      //-   name: 'Справка для центра занятости'
+      //- },
+      //- {
+      //-   open: false,
+      //-   name: 'Справка для предоставления субсидий'
+      //- }
     ],
     dialog: {
       open: false
     }
   }),
   computed: {
-    periodSelected () {
-      const from = this.period?.from
-      const to = this.period?.to
+    periodSelected() {
+      const from = this.period?.from;
+      const to = this.period?.to;
       if (from !== undefined && to !== undefined) {
-        return true
+        return true;
       }
-      return false
+      return false;
     }
   },
   watch: {
     displayedPeriod: {
-
-      handler (val) {
-        const current = Date.now()
-        const from = new Date(val?.split('-')[0]?.trim().split('.').reverse().join('-')).getTime()
-        const to = new Date(val?.split('-')[1]?.trim().split('.').reverse().join('-')).getTime()
-        if (!isNaN(from) && from < current && !isNaN(to) && to <= current && val.split('-')[0]?.trim().length === 10 && val.split('-')[1]?.trim().length === 10) {
-          console.log(current)
-          console.log(to)
+      handler(val) {
+        const current = Date.now();
+        const from = new Date(
+          val
+            ?.split("-")[0]
+            ?.trim()
+            .split(".")
+            .reverse()
+            .join("-")
+        ).getTime();
+        const to = new Date(
+          val
+            ?.split("-")[1]
+            ?.trim()
+            .split(".")
+            .reverse()
+            .join("-")
+        ).getTime();
+        if (
+          !isNaN(from) &&
+          from < current &&
+          !isNaN(to) &&
+          to <= current &&
+          val.split("-")[0]?.trim().length === 10 &&
+          val.split("-")[1]?.trim().length === 10
+        ) {
+          console.log(current);
+          console.log(to);
           this.period = {
-            from: val.split('-')[0]?.trim(),
-            to: val.split('-')[1]?.trim()
-          }
-          this.setDisplayedPeriod()
+            from: val.split("-")[0]?.trim(),
+            to: val.split("-")[1]?.trim()
+          };
+          this.setDisplayedPeriod();
         }
         // if (isNaN(from)) {
         //   // this.clearInput()
@@ -212,52 +278,56 @@ export default {
     }
   },
   methods: {
-    clearInput (v) {
-      console.log(v)
+    clearInput(v) {
+      console.log(v);
     },
-    logOut () {
-      this.$q.localStorage.remove('token')
-      this.$router.push('/auth')
+    logOut() {
+      this.$q.localStorage.remove("token");
+      this.$router.push("/auth");
       setTimeout(() => {
-        window.location.reload()
-      }, 100)
+        window.location.reload();
+      }, 100);
     },
-    requestCert (btn, certName) {
+    requestCert(btn, certName) {
       _.each(this.errors, (val, key) => {
-        this.errors[key] = null
-      })
+        this.errors[key] = null;
+      });
 
-      const fd = new FormData()
-      fd.append('reference_name', certName)
-      fd.append('period_start', this.period.from)
-      fd.append('period_end', this.period.to)
-      fd.append('comment', this.comment)
+      const fd = new FormData();
+      fd.append("reference_name", certName);
+      fd.append("period_start", this.period.from);
+      fd.append("period_end", this.period.to);
+      fd.append("comment", this.comment);
 
-      api.call('requestCert', fd)
+      api
+        .call("requestCert", fd)
         .then(({ data }) => {
-          console.log(fd)
+          this.$q.notify("Справка заказана");
+          console.log(fd);
         })
-        .catch(this.$axios.errorHandler)
+        .catch(e => {
+          throw e;
+          this.$axios.errorHandler;
+        })
         .finally(() => {
-          btn.offLoad()
-        })
+          btn.offLoad();
+        });
     },
-    setDisplayedPeriod () {
-      const from = this.period?.from
-      const to = this.period?.to
+    setDisplayedPeriod() {
+      const from = this.period?.from;
+      const to = this.period?.to;
       if (from !== undefined && to !== undefined) {
-        this.displayedPeriod = from + ' - ' + to
+        this.displayedPeriod = from + " - " + to;
       } else {
-        this.period = {}
-        this.displayedPeriod = null
+        this.period = {};
+        this.displayedPeriod = null;
       }
     }
   },
-  mounted () {
+  mounted() {
     // const date = new Date()
     // console.log(date)
     // moment.now = function () { return +new Date(moment().format('YYYY-MM-DD')) }
-
   }
-}
+};
 </script>

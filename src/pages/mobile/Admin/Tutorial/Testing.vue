@@ -164,7 +164,7 @@
                   OriginalButton(
                     v-if="true"
                     color="red-2"
-                    @click="(btn) => addTest(btn)"
+                    @click="(btn) => add(btn)"
                   ) Разместить тестирование
                   InactiveButton(
                     v-else
@@ -313,22 +313,7 @@ export default {
     showListOfProjects () {
       this.listOfProjectsVisibility = !this.listOfProjectsVisibility
     },
-    addTest (btn) {
-      // console.log(this.project)
-      // this.tests[this.testId] = {
-      //   id: this.testId,
-      //   title: `Название тестирования ${this.testId + 1}`,
-      //   questions: [
-      //     {
-      //       id: 0,
-      //       title: 'this.modal.a',
-      //       answers: [
-      //         'this.modal.b',
-      //         'this.modal.c'
-      //       ]
-      //     }
-      //   ]
-      // }
+    addT (btn) {
       for (let i = 0; i < this.modal.questions.length; i++) {
         for (let j = 0; j < this.modal.questions[i].answers.length; j++) {
           if (this.modal.questions[i].answers[j] === '') {
@@ -337,13 +322,6 @@ export default {
           }
         }
       }
-      // _.each(this.modal.questions, (question) => {
-      //   _.each(question.answers, (answer, key) => {
-      //     if (answer === '') {
-      //       question.answers.splice(key, 1)
-      //     }
-      //   })
-      // })
       api.call('testAdd', {
         project_id: this.project.value,
         questions: this.modal.questions
@@ -351,12 +329,6 @@ export default {
         .then(({ data }) => {
           this.showTests()
           btn.offLoad()
-          // _.each(data, (val) => {
-          //   this.projects.push({
-          //     label: val.name,
-          //     value: val.id
-          //   })
-          // })
         })
         .finally(() => {
           this.modal = {
@@ -371,10 +343,6 @@ export default {
             ]
           }
         })
-
-      // this.menus.push({
-      //   open: false
-      // })
       this.modal.open = false
     },
     saveTest (btn) {

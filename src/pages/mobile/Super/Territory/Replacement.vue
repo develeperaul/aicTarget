@@ -70,7 +70,7 @@
     q-dialog(
       position="bottom"
       v-model="modal.open"
-      v-if="employeeId != 0"
+
     )
       q-swipe-to-close(v-model="modal.open")
         q-card.no-border-radius
@@ -142,15 +142,15 @@
                 ) Отмена
 </template>
 <script>
-import Api from 'modules/api'
-const api = new Api('User')
-import OriginalButton from 'components/OriginalButton.vue'
-import InactiveButton from 'components/InactiveButton.vue'
-import HeaderSettings from 'components/HeaderSettings'
+import Api from "modules/api";
+const api = new Api("User");
+import OriginalButton from "components/OriginalButton.vue";
+import InactiveButton from "components/InactiveButton.vue";
+import HeaderSettings from "components/HeaderSettings";
 
 export default {
   components: { OriginalButton, InactiveButton, HeaderSettings },
-  data () {
+  data() {
     return {
       employeeId: 0,
       modal: {
@@ -161,28 +161,28 @@ export default {
       project: null,
       projects: [
         {
-          label: 'Все',
-          value: 'Все'
+          label: "Все",
+          value: "Все"
         },
         {
-          label: 'Project 1',
-          value: 'proj-1'
+          label: "Project 1",
+          value: "proj-1"
         },
         {
-          label: 'Project 2',
-          value: 'proj-2'
+          label: "Project 2",
+          value: "proj-2"
         },
         {
-          label: 'Project 3',
-          value: 'proj-3'
+          label: "Project 3",
+          value: "proj-3"
         },
         {
-          label: 'Project 4',
-          value: 'proj-4'
+          label: "Project 4",
+          value: "proj-4"
         },
         {
-          label: 'Project 5',
-          value: 'proj-5'
+          label: "Project 5",
+          value: "proj-5"
         }
       ],
       listOfProjectsVisibility: false,
@@ -190,58 +190,60 @@ export default {
       dialog: {
         open: false
       }
-    }
+    };
   },
-  mounted () {
-    api.call('replacementShow')
-      .then(({ data }) => {
-        console.log(data)
-        this.employees = data.data
-      })
+  mounted() {
+    api.call("replacementShow").then(({ data }) => {
+      console.log(data);
+      this.employees = data.data;
+    });
   },
   methods: {
-    logOut () {
-      this.$q.localStorage.remove('token')
-      this.$router.push('/auth')
+    logOut() {
+      this.$q.localStorage.remove("token");
+      this.$router.push("/auth");
       setTimeout(() => {
-        window.location.reload()
-      }, 100)
+        window.location.reload();
+      }, 100);
     },
-    request (button) {
-      api.call('replacementAccept', {
-        uuid: this.employees[this.employeeId].uuid,
-        comment: this.modal.reason
-      })
+    request(button) {
+      api
+        .call("replacementAccept", {
+          uuid: this.employees[this.employeeId].uuid,
+          comment: this.modal.reason
+        })
         .then(({ data }) => {
-          this.$q.notify(data)
-          this.modal.open = false
-          this.modal.reason = ''
+          this.$q.notify(data);
+          this.modal.open = false;
+          this.modal.reason = "";
         })
         .catch(this.$axios.errorHandler)
         .finally(() => {
-          button.offLoad()
-        })
+          button.offLoad();
+        });
     },
-    showListOfProjects () {
-      this.listOfProjectsVisibility = !this.listOfProjectsVisibility
+    showListOfProjects() {
+      this.listOfProjectsVisibility = !this.listOfProjectsVisibility;
     },
-    numberOfEmployees () {
-      return this.employees.length
+    numberOfEmployees() {
+      return this.employees.length;
     },
-    everythingIsFull () {
-      if (this.modal.reason === '' || this.modal.reason === null) {
-        return false
-      } return true
+    everythingIsFull() {
+      if (this.modal.reason === "" || this.modal.reason === null) {
+        return false;
+      }
+      return true;
     },
-    openModalById (employeeId) {
-      this.employeeId = employeeId
-      this.modal.open = true
+    openModalById(employeeId) {
+      this.employeeId = employeeId;
+      console.log("hi" + "" + this.employeeId);
+      this.modal.open = true;
     }
   }
-}
+};
 </script>
 <style scoped lang="scss">
-  .border-radius-10 {
-    border-radius: 10px
-  }
+.border-radius-10 {
+  border-radius: 10px;
+}
 </style>

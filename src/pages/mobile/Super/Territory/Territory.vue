@@ -75,42 +75,42 @@
                     icon="mdi-window-close"
                     @click="modal.paysheet=false"
                   )
-            q-card-section.q-px-none.q-pt-md
-              q-item
-                q-item-section
-                  q-item-label.text-h6.text-weight-bold
-                    | Запрос расчетного листа
-              q-item
-                q-item-section
-                  q-item-label.text-grey
-                    | Укажите период за который необходимо предоставить расчетный лист
-              q-item
-                q-item-section
-                  q-select(
-                    v-model="month"
-                    label="Месяц"
-                    options-cover
-                    :options="optMonths"
-                  )
-                q-item-section
-                  q-item-label
-                    q-select(
-                      v-model="year"
-                      label="Год"
-                      options-cover
-                      :options="optYears"
-                    )
-              q-item
-                q-item-section
-                  q-item-label
-                    OriginalButton(
-                      v-if="everythingIsFull()"
-                      color="red-2"
-                      to="/home/merchant/information/paysheet"
-                    ) Запросить
-                    InactiveButton(
-                      v-else
-                    ) Запросить
+            //- q-card-section.q-px-none.q-pt-md
+            //-   q-item
+            //-     q-item-section
+            //-       q-item-label.text-h6.text-weight-bold
+            //-         | Запрос расчетного листа
+            //-   q-item
+            //-     q-item-section
+            //-       q-item-label.text-grey
+            //-         | Укажите период за который необходимо предоставить расчетный лист
+            //-   q-item
+            //-     q-item-section
+            //-       q-select(
+            //-         v-model="month"
+            //-         label="Месяц"
+            //-         options-cover
+            //-         :options="optMonths"
+            //-       )
+            //-     q-item-section
+            //-       q-item-label
+            //-         q-select(
+            //-           v-model="year"
+            //-           label="Год"
+            //-           options-cover
+            //-           :options="optYears"
+            //-         )
+            //-   q-item
+            //-     q-item-section
+            //-       q-item-label
+            //-         OriginalButton(
+            //-           v-if="everythingIsFull()"
+            //-           color="red-2"
+            //-           to="/home/merchant/information/paysheet"
+            //-         ) Запросить
+            //-         InactiveButton(
+            //-           v-else
+            //-         ) Запросить
     q-dialog(
       content-class="q-dialog-padding-fixed"
       v-model="dialog.open"
@@ -131,9 +131,9 @@
                 ) Отмена
 </template>
 <script>
-import OriginalButton from 'components/OriginalButton.vue'
-import InactiveButton from 'components/InactiveButton.vue'
-import HeaderSettings from 'components/HeaderSettings'
+import OriginalButton from "components/OriginalButton.vue";
+import InactiveButton from "components/InactiveButton.vue";
+import HeaderSettings from "components/HeaderSettings";
 
 export default {
   components: { OriginalButton, InactiveButton, HeaderSettings },
@@ -150,30 +150,36 @@ export default {
     }
   }),
   methods: {
-    logOut () {
-      this.$q.localStorage.remove('token')
-      this.$router.push('/auth')
+    logOut() {
+      this.$q.localStorage.remove("token");
+      this.$router.push("/auth");
       setTimeout(() => {
-        window.location.reload()
-      }, 100)
+        window.location.reload();
+      }, 100);
     },
-    everythingIsFull () {
-      if (this.month === '' || this.month === null || this.year === '' || this.year === null) {
-        return false
-      } return true
+    everythingIsFull() {
+      if (
+        this.month === "" ||
+        this.month === null ||
+        this.year === "" ||
+        this.year === null
+      ) {
+        return false;
+      }
+      return true;
     }
   },
-  mounted () {
-    const year = 2018
-    const nowYear = this.$moment().format('YYYY')
-    this.optMonths = this.$utils.calendarLocale.months
-    this.optYears = []
+  mounted() {
+    const year = 2018;
+    const nowYear = this.$moment().format("YYYY");
+    this.optMonths = this.$utils.calendarLocale.months;
+    this.optYears = [];
     // this.optYears =
     // TODO: Years from start work
     for (let inyear = year; inyear < nowYear; inyear++) {
-      this.optYears.push(inyear)
+      this.optYears.push(inyear);
     }
     // this.optYear =
   }
-}
+};
 </script>

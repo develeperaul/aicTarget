@@ -36,13 +36,13 @@
             span.q-py-lg.row.justify-between.items-center.no-wrap(@click="downloadFile('/storage/common/filler_payform.pdf')")
               | Памятка о порядке начисления заработной платы
               q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
-      q-item.no-padding
-        q-item-section
-          q-item-label.q-py-lg.row.justify-between.items-center.no-wrap(
-            @click="modal.paysheet = true"
-          )
-            | Запрос расчётного листа
-            q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
+      //- q-item.no-padding
+      //-   q-item-section
+      //-     q-item-label.q-py-lg.row.justify-between.items-center.no-wrap(
+      //-       @click="modal.paysheet = true"
+      //-     )
+      //-       | Запрос расчётного листа
+      //-       q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
       //- q-item.no-padding
       //-   q-item-section
       //-     q-item-label
@@ -88,52 +88,52 @@
                   icon="mdi-window-close"
                   @click="modal.paysheet=false"
                 )
-          q-card-section.q-px-none.q-pt-md
-            q-item
-              q-item-section
-                q-item-label.text-h6.text-weight-bold
-                  | Запрос расчетного листа
-            q-item
-              q-item-section
-                q-item-label.text-grey
-                  | Укажите период за который необходимо предоставить расчетный лист
-            q-item
-              q-item-section
-                q-select(
-                  v-model="month"
-                  label="Месяц"
-                  options-cover
-                  :options="optMonths"
-                )
-              q-item-section
-                q-item-label
-                  q-select(
-                    v-model="year"
-                    label="Год"
-                    options-cover
-                    :options="optYears"
-                  )
-            q-item
-              q-item-section
-                q-item-label
-                  q-input(
-                    v-model="comment"
-                    bg-color="grey-2"
-                    outlined
-                    label="Комментарий"
-                    color="red"
-                  )
-            q-item
-              q-item-section
-                q-item-label
-                  OriginalButton(
-                    v-if="everythingIsFull()"
-                    color="red-2"
-                    @click="requestPaymentForm"
-                  ) Запросить
-                  InactiveButton(
-                    v-else
-                  ) Запросить
+          //- q-card-section.q-px-none.q-pt-md
+          //-   q-item
+          //-     q-item-section
+          //-       q-item-label.text-h6.text-weight-bold
+          //-         | Запрос расчетного листа
+          //-   q-item
+          //-     q-item-section
+          //-       q-item-label.text-grey
+          //-         | Укажите период за который необходимо предоставить расчетный лист
+          //-   q-item
+          //-     q-item-section
+          //-       q-select(
+          //-         v-model="month"
+          //-         label="Месяц"
+          //-         options-cover
+          //-         :options="optMonths"
+          //-       )
+          //-     q-item-section
+          //-       q-item-label
+          //-         q-select(
+          //-           v-model="year"
+          //-           label="Год"
+          //-           options-cover
+          //-           :options="optYears"
+          //-         )
+          //-   q-item
+          //-     q-item-section
+          //-       q-item-label
+          //-         q-input(
+          //-           v-model="comment"
+          //-           bg-color="grey-2"
+          //-           outlined
+          //-           label="Комментарий"
+          //-           color="red"
+          //-         )
+          //-   q-item
+          //-     q-item-section
+          //-       q-item-label
+          //-         OriginalButton(
+          //-           v-if="everythingIsFull()"
+          //-           color="red-2"
+          //-           @click="requestPaymentForm"
+          //-         ) Запросить
+          //-         InactiveButton(
+          //-           v-else
+          //-         ) Запросить
     q-dialog(
       content-class="q-dialog-padding-fixed"
       v-model="dialog.open"
@@ -154,13 +154,13 @@
                 ) Отмена
 </template>
 <script>
-import OriginalButton from 'components/OriginalButton.vue'
-import InactiveButton from 'components/InactiveButton.vue'
-import HeaderSettings from 'components/HeaderSettings'
-import _ from 'lodash'
-import Api from 'modules/api'
-import { openURL } from 'quasar'
-const api = new Api('User')
+import OriginalButton from "components/OriginalButton.vue";
+import InactiveButton from "components/InactiveButton.vue";
+import HeaderSettings from "components/HeaderSettings";
+import _ from "lodash";
+import Api from "modules/api";
+import { openURL } from "quasar";
+const api = new Api("User");
 
 export default {
   components: { OriginalButton, InactiveButton, HeaderSettings },
@@ -178,40 +178,47 @@ export default {
     }
   }),
   methods: {
-    logOut () {
-      this.$q.localStorage.remove('token')
-      this.$router.push('/auth')
+    logOut() {
+      this.$q.localStorage.remove("token");
+      this.$router.push("/auth");
       setTimeout(() => {
-        window.location.reload()
-      }, 100)
+        window.location.reload();
+      }, 100);
     },
-    everythingIsFull () {
-      if (this.month === '' || this.month === null || this.year === '' || this.year === null) {
-        return false
-      } return true
+    everythingIsFull() {
+      if (
+        this.month === "" ||
+        this.month === null ||
+        this.year === "" ||
+        this.year === null
+      ) {
+        return false;
+      }
+      return true;
     },
-    requestPaymentForm (btn) {
+    requestPaymentForm(btn) {
       _.each(this.errors, (val, key) => {
-        this.errors[key] = null
-      })
+        this.errors[key] = null;
+      });
 
-      const fd = new FormData()
-      fd.append('period', '01.2020')
+      const fd = new FormData();
+      fd.append("period", "01.2020");
       // fd.append('reference_name', 'paysheet')
       // fd.append('period_start', this.period.from)
       // fd.append('period_end', this.period.to)
       // fd.append('comment', this.comment)
 
-      api.call('paymentForm', fd)
+      api
+        .call("paymentForm", fd)
         .then(({ data }) => {
-          console.log(data)
+          console.log(data);
           this.$router.push({
-            name: 'paysheetinfo',
+            name: "paysheetinfo",
             params: {
               info: data
             }
             // path: `/home/merchant/information/paysheet?info=${JSON.stringify()}`
-          })
+          });
           // const url = window.URL.createObjectURL(new Blob([data]))
           // const link = document.createElement('a')
           // link.href = url
@@ -224,27 +231,27 @@ export default {
         })
         .catch(this.$axios.errorHandler)
         .finally(() => {
-          btn.offLoad()
+          btn.offLoad();
           // this.$router.push('/home/merchant/information/paysheet')
-        })
+        });
     },
-    downloadFile (path) {
+    downloadFile(path) {
       // console.log(this.$axios.defaults.baseURL)
-      openURL(`${this.$axios.defaults.baseURL}${path}`)
+      openURL(`${this.$axios.defaults.baseURL}${path}`);
       // http://149.154.64.211/storage/common/filler_payform.pdf
     }
   },
-  mounted () {
-    const year = 2018
-    const nowYear = this.$moment().format('YYYY')
-    this.optMonths = this.$utils.calendarLocale.months
-    this.optYears = []
+  mounted() {
+    const year = 2018;
+    const nowYear = this.$moment().format("YYYY");
+    this.optMonths = this.$utils.calendarLocale.months;
+    this.optYears = [];
     // this.optYears =
     // TODO: Years from start work
     for (let inyear = year; inyear < nowYear; inyear++) {
-      this.optYears.push(inyear)
+      this.optYears.push(inyear);
     }
     // this.optYear =
   }
-}
+};
 </script>

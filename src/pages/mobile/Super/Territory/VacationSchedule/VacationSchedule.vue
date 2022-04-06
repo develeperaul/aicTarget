@@ -30,20 +30,20 @@
           .text-h4.text-weight-bolder.q-mb-md
             | График отпусков
     q-list.q-px-md(separator)
-      q-item.no-padding
-        q-item-section
-          q-item-label
-            .q-py-lg.row.justify-between.items-center.no-wrap(
-              @click="sendMailRequest"
-            )
-              | Отправить на почту файл Excel с текущим графиком отпусков
-              q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
-      q-item.no-padding
-        q-item-section
-          q-item-label
-            router-link.q-py-lg.row.justify-between.items-center.no-wrap(tag="span",to="/home/super/territory/vacation-schedule/download")
-              | Загрузить график отпусков из доступных файлов
-              q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
+      //- q-item.no-padding
+      //-   q-item-section
+      //-     q-item-label
+      //-       .q-py-lg.row.justify-between.items-center.no-wrap(
+      //-         @click="sendMailRequest"
+      //-       )
+      //-         | Отправить на почту файл Excel с текущим графиком отпусков
+      //-         q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
+      //- q-item.no-padding
+      //-   q-item-section
+      //-     q-item-label
+      //-       router-link.q-py-lg.row.justify-between.items-center.no-wrap(tag="span",to="/home/super/territory/vacation-schedule/download")
+      //-         | Загрузить график отпусков из доступных файлов
+      //-         q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
       q-item.no-padding
         q-item-section
           q-item-label
@@ -152,13 +152,13 @@
                 ) Отмена
 </template>
 <script>
-import OriginalButton from 'components/OriginalButton.vue'
-import InactiveButton from 'components/InactiveButton.vue'
-import HeaderSettings from 'components/HeaderSettings'
-import _ from 'lodash'
-import Api from 'modules/api'
-const api = new Api('HomeSuper')
-import { openURL } from 'quasar'
+import OriginalButton from "components/OriginalButton.vue";
+import InactiveButton from "components/InactiveButton.vue";
+import HeaderSettings from "components/HeaderSettings";
+import _ from "lodash";
+import Api from "modules/api";
+const api = new Api("HomeSuper");
+import { openURL } from "quasar";
 
 export default {
   components: { OriginalButton, InactiveButton, HeaderSettings },
@@ -169,8 +169,8 @@ export default {
     },
     dialog: {
       open: false,
-      title: 'Отправлено!',
-      subtitle: 'График отпусков отправлен на указанную почту в личном кабинете'
+      title: "Отправлено!",
+      subtitle: "График отпусков отправлен на указанную почту в личном кабинете"
     },
     month: null,
     optMonths: [],
@@ -185,48 +185,51 @@ export default {
     }
   }),
   methods: {
-    logOut () {
-      this.$q.localStorage.remove('token')
-      this.$router.push('/auth')
+    logOut() {
+      this.$q.localStorage.remove("token");
+      this.$router.push("/auth");
       setTimeout(() => {
-        window.location.reload()
-      }, 100)
+        window.location.reload();
+      }, 100);
     },
-    sendMailRequest () {
-      api.call('vacationSendMail')
+    sendMailRequest() {
+      api
+        .call("vacationSendMail")
         .then(() => {
-          this.dialog.open = true
+          this.dialog.open = true;
         })
-        .catch(this.$axios.errorHandler)
+        .catch(this.$axios.errorHandler);
     },
-    request1c () {
-      api.call('vacationRequest1c')
+    request1c() {
+      api
+        .call("vacationRequest1c")
         .then(({ data }) => {
-          openURL(data)
+          openURL(data);
         })
         .finally(() => {
-          this.loading = false
-        })
+          this.loading = false;
+        });
     },
-    accept1c (btn) {
+    accept1c(btn) {
       _.each(this.errors, (val, key) => {
-        this.errors[key] = null
-      })
+        this.errors[key] = null;
+      });
 
-      const fd = new FormData()
-      fd.append('excel', this.excel)
-      api.call('vacationAccept1c', fd)
+      const fd = new FormData();
+      fd.append("excel", this.excel);
+      api
+        .call("vacationAccept1c", fd)
         .then(({ data }) => {
-          this.excel = null
-          this.downloadDialog.open = false
-          this.$q.notify('Документ загружен')
+          this.excel = null;
+          this.downloadDialog.open = false;
+          this.$q.notify("Документ загружен");
         })
         .finally(() => {
-          btn.offLoad()
-        })
+          btn.offLoad();
+        });
     },
-    onRemoveDoc () {
-      this.excel = null
+    onRemoveDoc() {
+      this.excel = null;
     },
     // async fileSelect (type, files, file) {
     //   console.log(this.$refs.uploadFile.files[0])
@@ -234,50 +237,57 @@ export default {
     //   this.excel = this.$refs.uploadFile.files[0]
     //   this.modal.open = false
     // },
-    everythingIsFull () {
-      if (this.month === '' || this.month === null || this.year === '' || this.year === null) {
-        return false
-      } return true
+    everythingIsFull() {
+      if (
+        this.month === "" ||
+        this.month === null ||
+        this.year === "" ||
+        this.year === null
+      ) {
+        return false;
+      }
+      return true;
     },
-    fileDataURL (file) {
+    fileDataURL(file) {
       return new Promise((resolve, reject) => {
-        const fr = new FileReader()
-        fr.onload = () => resolve(fr.result)
-        fr.onerror = reject
-        fr.readAsDataURL(file)
-      })
+        const fr = new FileReader();
+        fr.onload = () => resolve(fr.result);
+        fr.onerror = reject;
+        fr.readAsDataURL(file);
+      });
     },
-    async fileSelect (type, files, file) {
-      const fd = new FormData()
-      fd.append('excel', this.$refs.uploadFile.files[0])
+    async fileSelect(type, files, file) {
+      const fd = new FormData();
+      fd.append("excel", this.$refs.uploadFile.files[0]);
 
-      api.call('importVacationSchedule', fd)
+      api
+        .call("importVacationSchedule", fd)
         .then(({ data }) => {
-          if (data === 'Импорт завершен') {
-            this.$q.notify(data)
+          if (data === "Импорт завершен") {
+            this.$q.notify(data);
           } else {
             this.$q.notify({
-              type: 'negative',
+              type: "negative",
               message: data
-            })
+            });
           }
-          this.downloadDialog.open = false
-          console.log(data)
+          this.downloadDialog.open = false;
+          console.log(data);
         })
-        .catch(this.$axios.errorHandler)
+        .catch(this.$axios.errorHandler);
     }
   },
-  mounted () {
-    const year = 2018
-    const nowYear = this.$moment().format('YYYY')
-    this.optMonths = this.$utils.calendarLocale.months
-    this.optYears = []
+  mounted() {
+    const year = 2018;
+    const nowYear = this.$moment().format("YYYY");
+    this.optMonths = this.$utils.calendarLocale.months;
+    this.optYears = [];
     // this.optYears =
     // TODO: Years from start work
     for (let inyear = year; inyear < nowYear; inyear++) {
-      this.optYears.push(inyear)
+      this.optYears.push(inyear);
     }
     // this.optYear =
   }
-}
+};
 </script>

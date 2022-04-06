@@ -45,18 +45,19 @@
       q-item-section
         q-item-label
           .text-weight-550 Периоды плановых ежегодных отпусков за выбранный год:
-    q-item.q-pb-xl.q-pl-sm
-      q-item-section
-        q-item-label
-          q-option-group(
-            v-if="year"
-            v-model="period"
-            :options="periods"
-            type="checkbox"
-          )
+        q-item.q-pb-xl.q-pl-sm
+          div(v-if="year" style="margin-top: 10px;text-align: center;") Периодов не найдено
           .q-pt-lg.text-grey.text-center(
             v-else
           ) Выберите год
+          //- q-item-section
+          //-   q-item-label
+          //-     q-option-group(
+          //-       v-if="year"
+          //-       v-model="period"
+          //-       :options="periods"
+          //-       type="checkbox"
+          //-     )
     q-item
       q-item-section
         q-item-label
@@ -81,9 +82,9 @@
                 ) Отмена
 </template>
 <script>
-import OriginalButton from 'components/OriginalButton.vue'
-import InactiveButton from 'components/InactiveButton.vue'
-import HeaderSettings from 'components/HeaderSettings'
+import OriginalButton from "components/OriginalButton.vue";
+import InactiveButton from "components/InactiveButton.vue";
+import HeaderSettings from "components/HeaderSettings";
 
 export default {
   components: { OriginalButton, InactiveButton, HeaderSettings },
@@ -94,46 +95,46 @@ export default {
     year: null,
     optYears: [
       {
-        label: '2019',
-        value: '2019'
+        label: "2021",
+        value: "2021"
       },
       {
-        label: '2020',
-        value: '2020'
+        label: "2022",
+        value: "2022"
       }
     ],
     period: [],
     periods: [
       {
-        label: '15.01.2020 – 23.01.2020',
-        value: 'period1'
+        label: "15.01.2020 – 23.01.2020",
+        value: "period1"
       },
       {
-        label: '20.05.2020 – 03.06.2020',
-        value: 'period2'
+        label: "20.05.2020 – 03.06.2020",
+        value: "period2"
       },
       {
-        label: '15.11.2020 – 23.12.2020',
-        value: 'period3'
+        label: "15.11.2020 – 23.12.2020",
+        value: "period3"
       }
     ]
   }),
   methods: {
-    logOut () {
-      this.$q.localStorage.remove('token')
-      this.$router.push('/auth')
+    logOut() {
+      this.$q.localStorage.remove("token");
+      this.$router.push("/auth");
       setTimeout(() => {
-        window.location.reload()
-      }, 100)
+        window.location.reload();
+      }, 100);
     },
-    everythingIsFull () {
+    everythingIsFull() {
       if (this.period.length) {
-        return true
+        return true;
       }
-      return false
+      return false;
     }
   },
-  mounted () {
+  mounted() {
     // const year = 2019
     // const lastYear = this.$moment().add(-1, 'year').format('YYYY')
     // this.optMonths = this.$utils.calendarLocale.months
@@ -145,5 +146,5 @@ export default {
     // }
     // // this.optYear =
   }
-}
+};
 </script>

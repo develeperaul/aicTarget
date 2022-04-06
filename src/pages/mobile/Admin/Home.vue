@@ -48,18 +48,18 @@
             router-link(tag="span",to="/home/admin/monthly-messages")
               | Настроить ежемесячные сообщения мерчендайзерам
             q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
-      q-item.no-padding
-        q-item-section
-          q-item-label.q-py-lg.row.justify-between.items-center.no-wrap.relative-position
-            file-input(
-              ref="uploadFile"
-              accept=".xlsb, .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-              @change="() => fileSelect('doc')"
-            )
-            span
+      //- q-item.no-padding
+      //-   q-item-section
+      //-     q-item-label.q-py-lg.row.justify-between.items-center.no-wrap.relative-position
+      //-       file-input(
+      //-         ref="uploadFile"
+      //-         accept=".xlsb, .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+      //-         @change="() => fileSelect('doc')"
+      //-       )
+            //- span
               //- router-link(tag="span",to="/home/admin/edit-paysheet")
                 //- | Корректировать список полей для расчетного листка
-              | Загрузить список бонусов
+              //- | Загрузить список бонусов
               //- q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
       q-item.no-padding
         q-item-section
@@ -88,10 +88,10 @@
                 ) Отмена
 </template>
 <script>
-import OriginalButton from 'components/OriginalButton.vue'
-import HeaderSettings from 'components/HeaderSettings'
-import Api from 'modules/api'
-const api = new Api('Admin')
+import OriginalButton from "components/OriginalButton.vue";
+import HeaderSettings from "components/HeaderSettings";
+import Api from "modules/api";
+const api = new Api("Admin");
 export default {
   components: { OriginalButton, HeaderSettings },
   data: () => ({
@@ -100,22 +100,22 @@ export default {
     }
   }),
   methods: {
-    logOut () {
-      this.$q.localStorage.remove('token')
-      this.$router.push('/auth')
+    logOut() {
+      this.$q.localStorage.remove("token");
+      this.$router.push("/auth");
       setTimeout(() => {
-        window.location.reload()
-      }, 100)
+        window.location.reload();
+      }, 100);
     },
-    fileDataURL (file) {
+    fileDataURL(file) {
       return new Promise((resolve, reject) => {
-        const fr = new FileReader()
-        fr.onload = () => resolve(fr.result)
-        fr.onerror = reject
-        fr.readAsDataURL(file)
-      })
+        const fr = new FileReader();
+        fr.onload = () => resolve(fr.result);
+        fr.onerror = reject;
+        fr.readAsDataURL(file);
+      });
     },
-    async fileSelect (type, files, file) {
+    async fileSelect(type, files, file) {
       // if (type === 'photo') {
       //   console.log(files, file)
       //   const image = await this.fileDataURL(this.$refs.uploadPhoto.files[0])
@@ -126,17 +126,18 @@ export default {
       // const docName = this.$refs.uploadFile.files[0].name
       // const docData = await this.fileDataURL(this.$refs.uploadFile.files[0])
 
-      const fd = new FormData()
+      const fd = new FormData();
       // fd.append('excel', docData)
-      fd.append('excel', this.$refs.uploadFile.files[0])
+      fd.append("excel", this.$refs.uploadFile.files[0]);
 
-      api.call('importBonusList', fd)
+      api
+        .call("importBonusList", fd)
         .then(({ data }) => {
-          console.log(data)
-          this.$q.notify('Бонусы успешно загружены')
+          console.log(data);
+          this.$q.notify("Бонусы успешно загружены");
           // this.$router.push('/home/admin')
         })
-        .catch(this.$axios.errorHandler)
+        .catch(this.$axios.errorHandler);
       // this.docs.push({
       //   name: docName,
       //   data: docData
@@ -145,9 +146,9 @@ export default {
     }
   },
   computed: {
-    userInfo () {
-      return this.$store.getters['user/info']
+    userInfo() {
+      return this.$store.getters["user/info"];
     }
   }
-}
+};
 </script>
