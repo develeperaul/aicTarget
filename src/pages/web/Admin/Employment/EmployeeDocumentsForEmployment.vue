@@ -79,7 +79,7 @@
                         transition-next="slide-left"
                         swipeable
                         animated
-                        control-color="black"
+                        control-color="white"
                         navigation-icon="mdi-circle-medium"
                         navigation-active-icon="mdi-circle"
                         padding
@@ -142,131 +142,132 @@
             ) Отправить
 </template>
 <script>
-import OriginalButton from 'components/OriginalButton.vue'
-import InactiveButton from 'components/InactiveButton.vue'
-import components from './Docs/index'
-import _ from 'lodash'
-import Api from 'modules/api'
-const api = new Api('Admin')
+import OriginalButton from "components/OriginalButton.vue";
+import InactiveButton from "components/InactiveButton.vue";
+import components from "./Docs/index";
+import _ from "lodash";
+import Api from "modules/api";
+const api = new Api("Admin");
 
 export default {
   components: { ...components, OriginalButton, InactiveButton },
-  data () {
+  data() {
     return {
       comment: null,
       received_all_data: null,
       employees: [],
       thumbStyle: {
-        right: '-2px',
-        borderRadius: '10px',
-        backgroundColor: '#C22821',
-        width: '6px',
+        right: "-2px",
+        borderRadius: "10px",
+        backgroundColor: "#C22821",
+        width: "6px",
         opacity: 1
       },
       barStyle: {
-        right: '-2px',
-        borderRadius: '10px',
-        backgroundColor: '#F2F2F2',
-        width: '6px',
+        right: "-2px",
+        borderRadius: "10px",
+        backgroundColor: "#F2F2F2",
+        width: "6px",
         opacity: 1
       },
       slide: 0,
       selectedDoc: 1,
-      tab: 'passport',
+      tab: "passport",
       tabs: [
         {
-          name: 'passport',
-          label: 'Паспорт',
+          name: "passport",
+          label: "Паспорт",
           data: null
         },
         {
-          name: 'passport_other',
-          label: 'Паспорт (доп.)',
+          name: "passport_other",
+          label: "Паспорт (доп.)",
           data: null
         },
         {
-          name: 'inn',
-          label: 'ИНН',
+          name: "inn",
+          label: "ИНН",
           data: null
         },
         {
-          name: 'snils',
-          label: 'СНИЛС',
+          name: "snils",
+          label: "СНИЛС",
           data: null
         },
         {
-          name: 'bank_card',
-          label: 'Карта',
+          name: "bank_card",
+          label: "Карта",
           data: null
         },
         {
-          name: 'bank_account',
-          label: 'Реквизиты',
+          name: "bank_account",
+          label: "Реквизиты",
           data: null
         },
         {
-          name: 'medcard',
-          label: 'Медицинская книжка',
+          name: "medcard",
+          label: "Медицинская книжка",
           data: null
         },
         {
-          name: 'work_card',
-          label: 'Трудовая',
+          name: "work_card",
+          label: "Трудовая",
           data: null
         },
         {
-          name: 'a',
-          label: 'Права',
+          name: "a",
+          label: "Права",
           data: null
         },
         {
-          name: 'b',
-          label: 'СТС',
-          data: null
-        },
-        {
-          name: 'c',
-          label: 'Вакансия',
+          name: "b",
+          label: "СТС",
           data: null
         }
+        // {
+        //   name: 'c',
+        //   label: 'Вакансия',
+        //   data: null
+        // }
       ]
-    }
+    };
   },
-  mounted () {
-    api.call('showOneApplication', {
-      params: {
-        uuid: this.$route.params.uuid
-      }
-    })
-      .then(({ data }) => {
-        data = data.data
-        this.tabs[0].data = data.passport
-        this.tabs[1].data = data.passport // passport_other
-        this.tabs[2].data = data.inn
-        this.tabs[3].data = data.snils
-        this.tabs[4].data = data.bank_card
-        this.tabs[5].data = data.bank_account
-        this.tabs[6].data = data.medcard
-        this.tabs[7].data = data.work_card
-        this.tabs[8].data = data.passport // driver's license
-        this.tabs[9].data = data.passport // sts
-        this.tabs[10].data = data.passport // vacancy
-        this.received_all_data = data
+  mounted() {
+    api
+      .call("showOneApplication", {
+        params: {
+          uuid: this.$route.params.uuid
+        }
       })
+      .then(({ data }) => {
+        data = data.data;
+        this.tabs[0].data = data.passport;
+        this.tabs[1].data = data.passport; // passport_other
+        this.tabs[2].data = data.inn;
+        this.tabs[3].data = data.snils;
+        this.tabs[4].data = data.bank_card;
+        this.tabs[5].data = data.bank_account;
+        this.tabs[6].data = data.medcard;
+        this.tabs[7].data = data.work_card;
+        this.tabs[8].data = data.passport; // driver's license
+        this.tabs[9].data = data.passport; // sts
+        // this.tabs[10].data = data.passport // vacancy
+        this.received_all_data = data;
+      });
   },
   computed: {
-    allDocsAreVerified () {
-      return this.tabs.every(elem => elem.data.verified)
+    allDocsAreVerified() {
+      return this.tabs.every(elem => elem.data.verified);
     }
   },
   watch: {
-    selectedDoc (newDoc, oldDoc) {
-      const data = this.tabs[newDoc - 1]
-      this.tab = data.name
+    selectedDoc(newDoc, oldDoc) {
+      const data = this.tabs[newDoc - 1];
+      this.tab = data.name;
     }
   },
   methods: {
-    test () {
+    test() {
       // console.log(this.tabs[2].data.verified)
       // console.log(this.selectedDoc)
       // for (let i = 0; i < this.tabs.length; i++) {
@@ -275,84 +276,86 @@ export default {
       //   }
       // }
     },
-    verifyDoc () {
+    verifyDoc() {
       _.each(this.errors, (val, key) => {
-        this.errors[key] = null
-      })
+        this.errors[key] = null;
+      });
 
-      const fd = new FormData()
-      fd.append('uuid', this.$route.params.uuid)
-      fd.append('doc', this.selectedDoc)
+      const fd = new FormData();
+      fd.append("uuid", this.$route.params.uuid);
+      fd.append("doc", this.selectedDoc);
 
       _.each(this.tabs, (val, key) => {
         if (key === this.selectedDoc - 1) {
-          fd.append('conclusion', this.tabs[key].data.verified)
+          fd.append("conclusion", this.tabs[key].data.verified);
         }
-      })
+      });
 
-      api.call('verifyDocWeb', fd)
+      api
+        .call("verifyDocWeb", fd)
         .then(({ data }) => {
-          console.log(fd)
+          console.log(fd);
         })
-        .catch((data) => {
-          console.log(data)
+        .catch(data => {
+          console.log(data);
           if (data.response) {
-            const errors = data.response.data.errors
+            const errors = data.response.data.errors;
             _.each(errors, (messages, key) => {
-              console.log(key, this.errors[key])
+              console.log(key, this.errors[key]);
               if (this.errors[key] !== undefined) {
-                this.errors[key] = messages[0]
+                this.errors[key] = messages[0];
               }
-            })
+            });
           }
-        })
+        });
     },
-    verifyRegistration (btn) {
+    verifyRegistration(btn) {
       _.each(this.errors, (val, key) => {
-        this.errors[key] = null
-      })
+        this.errors[key] = null;
+      });
 
-      const fd = new FormData()
-      fd.append('uuid', this.$route.params.uuid)
-      fd.append('comment', this.comment)
+      const fd = new FormData();
+      fd.append("uuid", this.$route.params.uuid);
+      fd.append("comment", this.comment);
 
-      api.call('verifyRegistrationWeb', fd)
+      api
+        .call("verifyRegistrationWeb", fd)
         .then(({ data }) => {
-          console.log(fd)
+          console.log(fd);
         })
-        .catch((data) => {
-          console.log(data)
+        .catch(data => {
+          console.log(data);
           if (data.response) {
-            const errors = data.response.data.errors
+            const errors = data.response.data.errors;
 
             _.each(errors, (messages, key) => {
-              console.log(key, this.errors[key])
+              console.log(key, this.errors[key]);
               if (this.errors[key] !== undefined) {
-                this.errors[key] = messages[0]
+                this.errors[key] = messages[0];
               }
-            })
+            });
           }
         })
         .finally(() => {
-          btn.offLoad()
-        })
+          btn.offLoad();
+        });
     }
   }
-}
+};
 </script>
 <style scoped lang="scss">
-  .footer-header {
-    height: 100px;
-  }
-  .max-width {
-    max-width: 1440px;
-    margin: 0 auto;
-  }
-  .click-photo {
-    width: 100%;
-    height: auto;
-  }
-  .underline {
-    text-decoration: underline;
-  }
+.footer-header {
+  height: 100px;
+}
+.max-width {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+.click-photo {
+  width: 100%;
+  height: auto;
+}
+.underline {
+  text-decoration: underline;
+}
 </style>

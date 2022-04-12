@@ -102,10 +102,10 @@
                         v-if="isFull(modal.inputs.snils_number)"
                       )
                         inline-svg.q-pl-none(width="12" height="8" :src="require('assets/check-mark.svg')")
-              q-item
-                q-item-section
-                  q-item-label
-                    router-link.text-blue.q-ml-sm.font-size-15(tag="span",to="") Где посмотреть номер СНИЛС?
+              //- q-item
+              //-   q-item-section
+              //-     q-item-label
+              //-       router-link.text-blue.q-ml-sm.font-size-15(tag="span",to="") Где посмотреть номер СНИЛС?
               q-item
                 q-item-section
                   q-item-label
@@ -135,24 +135,24 @@
 </template>
 <script>
 /* eslint-disable no-unreachable */
-import _ from 'lodash'
-import OriginalButton from 'components/OriginalButton.vue'
-import InactiveButton from 'components/InactiveButton.vue'
-import { Plugins, CameraResultType, CameraSource } from '@capacitor/core'
-const { Camera } = Plugins
+import _ from "lodash";
+import OriginalButton from "components/OriginalButton.vue";
+import InactiveButton from "components/InactiveButton.vue";
+import { Plugins, CameraResultType, CameraSource } from "@capacitor/core";
+const { Camera } = Plugins;
 
-import Api from 'modules/api'
-const api = new Api('Auth')
+import Api from "modules/api";
+const api = new Api("Auth");
 
 export default {
-  name: 'register-step-3-section-3',
+  name: "register-step-3-section-3",
   components: { OriginalButton, InactiveButton },
   data: () => ({
-    label: '03. СНИЛС',
+    label: "03. СНИЛС",
     modal: {
       open: false,
-      title: 'Заполните пустые поля',
-      subtitle: 'Данные СНИЛС',
+      title: "Заполните пустые поля",
+      subtitle: "Данные СНИЛС",
       inputs: {
         snils_number: null
       }
@@ -165,156 +165,163 @@ export default {
   }),
 
   computed: {
-    mode () {
-      return process.env.MODE
+    mode() {
+      return process.env.MODE;
     }
   },
-  mounted () {
-    Camera.requestPermissions()
-      .then(() => {
-
+  mounted() {
+    Camera.requestPermissions().then(() => {});
+    api
+      .call("registerStep2Sub3Info", {
+        params: {
+          uuid: this.$parent.$attrs.uuid
+        }
       })
-    api.call('registerStep2Sub3Info', {
-      params: {
-        uuid: this.$parent.$attrs.uuid
-      }
-    })
       .then(({ data }) => {
-        this.modal.inputs.snils_number = data.snils_number
+        this.modal.inputs.snils_number = data.snils_number;
 
-        _.each(data.photos, (val) => { this.url[val.url] = val.asset })
+        _.each(data.photos, val => {
+          this.url[val.url] = val.asset;
+        });
         this.$nextTick(() => {
-          this.images = _.map(data.photos, 'url')
-        })
+          this.images = _.map(data.photos, "url");
+        });
         // console.log(data)
-      })
+      });
   },
   methods: {
-    onRemove (index) {
-      this.images.splice(index, 1)
-      this.$refs[`${index}-slade`].reset()
+    onRemove(index) {
+      this.images.splice(index, 1);
+      this.$refs[`${index}-slade`].reset();
     },
-    everythingIsFull () {
+    everythingIsFull() {
       for (const item in this.modal.inputs) {
-        if (this.modal.inputs[item] === '' || this.modal.inputs[item] === null || this.modal.inputs[item] === undefined) {
-          return false
+        if (
+          this.modal.inputs[item] === "" ||
+          this.modal.inputs[item] === null ||
+          this.modal.inputs[item] === undefined
+        ) {
+          return false;
         }
-      } return true
+      }
+      return true;
     },
-    photosUploaded () {
+    photosUploaded() {
       if (this.images.length !== 0) {
-        return true
-      } return false
+        return true;
+      }
+      return false;
     },
-    next (btn) {
+    next(btn) {
       // this.$emit('next')
       // console.log(this.images)
       // btn.offLoad()
       // return
       // console.log(btn)
       _.each(this.errors, (val, key) => {
-        this.errors[key] = null
-      })
-      const fd = new FormData()
-      _.each(
-        this.modal.inputs,
-        (val, key) => fd.append(key, val)
-      )
+        this.errors[key] = null;
+      });
+      const fd = new FormData();
+      _.each(this.modal.inputs, (val, key) => fd.append(key, val));
 
-      _.each(this.images, (val) => {
-        if (val.startsWith('data:')) {
-          fd.append('photos[]', this.$axios.dataURLtoBlob(val))
+      _.each(this.images, val => {
+        if (val.startsWith("data:")) {
+          fd.append("photos[]", this.$axios.dataURLtoBlob(val));
         } else {
-          fd.append('photos[]', val)
+          fd.append("photos[]", val);
         }
-      })
+      });
 
-      fd.append('uuid', this.$parent.$attrs.uuid)
-      api.call('registerStep2Sub3', fd)
+      fd.append("uuid", this.$parent.$attrs.uuid);
+      api
+        .call("registerStep2Sub3", fd)
         .then(({ data }) => {
-          this.$emit('uuid-store', data.data.uuid)
-          this.$emit('step-store', data.data.step)
+          this.$emit("uuid-store", data.data.uuid);
+          this.$emit("step-store", data.data.step);
 
-          this.$emit('next')
+          this.$emit("next");
         })
-        .catch((data) => {
-          const errors = data.response.data.errors
+        .catch(data => {
+          const errors = data.response.data.errors;
 
           _.each(errors, (messages, key) => {
-            console.log(key, this.errors[key])
+            console.log(key, this.errors[key]);
             if (this.errors[key] !== undefined) {
-              this.errors[key] = messages[0]
+              this.errors[key] = messages[0];
             }
-          })
-          console.log(errors)
+          });
+          console.log(errors);
         })
         .finally(() => {
-          btn.offLoad()
-        })
+          btn.offLoad();
+        });
     },
-    isFull (input) {
-      if (input === null || input === '') {
-        return false
-      } return true
+    isFull(input) {
+      if (input === null || input === "") {
+        return false;
+      }
+      return true;
     },
-    fileDataURL (file) {
+    fileDataURL(file) {
       return new Promise((resolve, reject) => {
-        const fr = new FileReader()
-        fr.onload = () => resolve(fr.result)
-        fr.onerror = reject
-        fr.readAsDataURL(file)
-      })
+        const fr = new FileReader();
+        fr.onload = () => resolve(fr.result);
+        fr.onerror = reject;
+        fr.readAsDataURL(file);
+      });
     },
-    async fileSelect (files, file) {
-      console.log(files, file)
-      const image = await this.fileDataURL(this.$refs.uploadFile.files[0])
+    async fileSelect(files, file) {
+      console.log(files, file);
+      const image = await this.fileDataURL(this.$refs.uploadFile.files[0]);
 
-      this.images.push(image)
+      this.images.push(image);
     },
-    async photoSelect () {
+    async photoSelect() {
       const image = await Camera.getPhoto({
         source: CameraSource.Photos,
         quality: 90,
         resultType: CameraResultType.DataUrl
-      })
+      });
 
       // console.log(image)
-      this.images.push(image.dataUrl)
+      this.images.push(image.dataUrl);
     },
-    async photoCamera () {
+    async photoCamera() {
       await navigator.camera.getPicture(
-        data => { // on success
-          console.log(data)
-          this.images.push(`data:image/jpeg;base64,${data}`)
+        data => {
+          // on success
+          console.log(data);
+          this.images.push(`data:image/jpeg;base64,${data}`);
         },
-        () => { // on fail
-          this.$q.notify('Could not access device camera.')
+        () => {
+          // on fail
+          this.$q.notify("Could not access device camera.");
         },
         {
           destinationType: 0
         }
-      )
+      );
     }
   }
-}
+};
 </script>
 <style scoped lang="scss">
-  .img-blank {
-    height: 90px;
-    border-radius: 5px;
-  }
-  .button-remove {
-    position: absolute;
-    right: 0px;
-    height: 100%;
-    top: 0px;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-  }
-  .click-photo {
-    width: 100%;
-    height: 100%;
-    background: none;
-  }
+.img-blank {
+  height: 90px;
+  border-radius: 5px;
+}
+.button-remove {
+  position: absolute;
+  right: 0px;
+  height: 100%;
+  top: 0px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+.click-photo {
+  width: 100%;
+  height: 100%;
+  background: none;
+}
 </style>
