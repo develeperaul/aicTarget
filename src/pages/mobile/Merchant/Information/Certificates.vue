@@ -95,9 +95,10 @@
                     q-item-label
                       q-input(
                         v-model="comment"
+                        type="textarea"
                         bg-color="grey-2"
                         outlined
-                        label="Комментарий"
+                        placeholder="Электронная справка или оригинал, укажите электронную почту или почтовый адрес индексом"
                         color="red"
                       )
                 q-item

@@ -10,13 +10,7 @@
         size="3em"
       )
     div(v-else)
-      .q-pa-xl.text-center(v-if="!need")
-        | Для выбранного проекта заполнение медицинской карты не требуется
-        OriginalButton.q-my-xl(
-              color="red-2"
-              @click="next"
-            ) Далее
-      div(v-else)
+      div
         q-item
           q-item-section
             q-item-label
@@ -191,7 +185,7 @@ export default {
     images: [],
     url: {},
     loading: true,
-    need: true
+    need: false
   }),
 
   computed: {

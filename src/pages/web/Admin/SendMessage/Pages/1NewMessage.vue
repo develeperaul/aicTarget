@@ -55,6 +55,14 @@
             hidden
           )
           q-input(
+            v-model="title"
+            type="textarea"
+            outlined
+            label="Заголовок сообщения"
+            bg-color="grey-2"
+            color="red"
+          )
+          q-input(
             v-model="label"
             type="textarea"
             outlined
@@ -106,6 +114,7 @@ export default {
   components: { OriginalButton, InactiveButton },
   data: () => ({
     label: null,
+    title: null,
     errors: {
       label: null
     },
@@ -218,8 +227,8 @@ export default {
           fd.append('user_ids[]', this.employees[i].id)
         }
       }
-
-      fd.append('label', this.label)
+      fd.append('title', this.title)
+      fd.append('message', this.label)
 
       _.each(this.images, (val) => {
         if (val.startsWith('data:')) {

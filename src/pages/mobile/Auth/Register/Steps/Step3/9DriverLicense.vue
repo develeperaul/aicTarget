@@ -10,13 +10,13 @@
         size="3em"
       )
     div(v-else)
-      .q-pa-xl.text-center(v-if="!need")
-        | Для выбранного проекта заполнение водительских прав не требуется
-        OriginalButton.q-my-xl(
-              color="red-2"
-              @click="next"
-            ) Далее
-      div(v-else)
+      //- .q-pa-xl.text-center(v-if="!need")
+      //-   | Для выбранного проекта заполнение водительских прав не требуется
+      //-   OriginalButton.q-my-xl(
+      //-         color="red-2"
+      //-         @click="next"
+      //-       ) Далее
+      div
         q-item
           q-item-section
             q-item-label

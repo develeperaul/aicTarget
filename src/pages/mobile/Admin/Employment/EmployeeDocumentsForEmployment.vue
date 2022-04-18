@@ -59,12 +59,12 @@
           color="blue"
         )
         q-icon(
-          v-else-if="tab.data.verified"
+          v-else-if="tab.data.verified === 'verified'"
           name="mdi-checkbox-marked-circle"
           color="green"
         )
         q-icon(
-          v-else
+          v-else-if="tab.data.verified === 'resend'"
           name="mdi-checkbox-marked-circle"
           color="red"
         )
