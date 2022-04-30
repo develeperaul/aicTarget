@@ -55,12 +55,12 @@
                 q-date.full-width(
                   ref="dateSickLeave"
                   flat
-                  :range="endDateUnknown === false"
                   v-model="sickLeavePeriod"
                   mask="DD.MM.YYYY"
                   minimal
                   :locale="$utils.calendarLocale"
                   @click="setDisplayedPeriod()"
+                  :range="!endDateUnknown"
                 )
       q-item
         q-item-section
@@ -186,7 +186,7 @@ export default {
   }),
   watch: {
     endDateUnknown () {
-      this.sickLeavePeriod = {}
+      this.sickLeavePeriod = null
       this.displayedPeriod = null
       if (this.calendarVisibility) this.$refs.dateSickLeave.editRange = undefined
     }
@@ -288,8 +288,9 @@ export default {
         if (from !== undefined && to !== undefined) {
           this.displayedPeriod = from + ' - ' + to
         } else {
-          this.sickLeavePeriod = {}
-          this.displayedPeriod = null
+
+          // this.sickLeavePeriod = null
+          // this.displayedPeriod = null
         }
       }
     },

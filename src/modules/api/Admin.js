@@ -14,7 +14,19 @@ class User {
       )
     }
   }
+  // 1. Памятка о порядке начисления заработной платы
 
+  createPayrollProcedure = ({ project, data }) => {
+    axios.post(`api/v1/admin/projects/${project}/documents/payroll_procedure`, data)
+  }
+
+  // 2. Планограмма
+
+  createPlanogram = ({ project, data }) => axios.post(`api/v1/admin/projects/${project}/documents/planogram`, data)
+
+  // 3. Тетрадь мерчендайзера
+
+  createMerchandiserNotebook = ({ project, data }) => axios.post(`api/v1/admin/projects/${project}/documents/merchandiser_notebook`, data)
   sendMessage = (data) => axios.post('api/v1/admin/messages/send', data, {
     headers: {
       'Content-Type': 'multipart/form-data'

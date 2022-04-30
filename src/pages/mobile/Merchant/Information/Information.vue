@@ -33,7 +33,7 @@
       q-item.no-padding
         q-item-section
           q-item-label
-            span.q-py-lg.row.justify-between.items-center.no-wrap(@click="downloadFile('/storage/common/filler_payform.pdf')")
+            span.q-py-lg.row.justify-between.items-center.no-wrap(@click="getPayrollProcedure")
               | Памятка о порядке начисления заработной платы
               q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
       //- q-item.no-padding
@@ -152,15 +152,17 @@
                 OriginalButton.q-mt-sm.full-width.text-red-2(
                   @click="dialog.open = false"
                 ) Отмена
+    a(style="display:none" download ref="linkDownload")
 </template>
 <script>
-import OriginalButton from "components/OriginalButton.vue";
-import InactiveButton from "components/InactiveButton.vue";
-import HeaderSettings from "components/HeaderSettings";
-import _ from "lodash";
-import Api from "modules/api";
-import { openURL } from "quasar";
-const api = new Api("User");
+import OriginalButton from 'components/OriginalButton.vue'
+import InactiveButton from 'components/InactiveButton.vue'
+import HeaderSettings from 'components/HeaderSettings'
+import _ from 'lodash'
+import Api from 'modules/api'
+import { openURL } from 'quasar'
+import mime from 'mime-types'
+const api = new Api('User')
 
 export default {
   components: { OriginalButton, InactiveButton, HeaderSettings },
@@ -177,48 +179,156 @@ export default {
       paysheet: false
     }
   }),
+  computed: {
+    project_id () {
+      return this.$store.state.user.info.project_id
+    }
+  },
   methods: {
-    logOut() {
-      this.$q.localStorage.remove("token");
-      this.$router.push("/auth");
-      setTimeout(() => {
-        window.location.reload();
-      }, 100);
+    //     function writeFile(fileEntry, dataObj) {
+    //     // Create a FileWriter object for our FileEntry (log.txt).
+    //     fileEntry.createWriter(function (fileWriter) {
+
+    //         fileWriter.onwriteend = function() {
+    //             console.log("Successful file write...");
+    //             readFile(fileEntry);
+    //         };
+
+    //         fileWriter.onerror = function (e) {
+    //             console.log("Failed file write: " + e.toString());
+    //         };
+
+    //         // If data object is not passed in,
+    //         // create a new Blob instead.
+    //         if (!dataObj) {
+    //             dataObj = new Blob(['some file data'], { type: 'text/plain' });
+    //         }
+
+    //         fileWriter.write(dataObj);
+    //     });
+    // }
+
+    getPayrollProcedure () {
+      // getPlanogram
+      this.$q.loading.show()
+      api.call('getPayrollProcedure', this.project_id).then((r) => {
+        const filename = 'Памятка по начислениям зарплаты'
+        window.document.addEventListener('deviceready', () => {
+          let storageLocation = ''
+
+          switch (cordova.platformId.toLowerCase()) {
+            case 'android':
+
+              storageLocation = cordova.file.externalDataDirectory
+              break
+
+            case 'ios':
+              storageLocation = cordova.file.documentsDirectory
+              break
+          }
+          const folderPath = storageLocation
+          console.log(mime.extension(r.data.type))
+          window.resolveLocalFileSystemURL(
+            folderPath,
+            (dir) => {
+              dir.getFile(
+                filename,
+                {
+                  create: true
+                },
+                (file) => {
+                  file.createWriter(
+                    (fileWriter) => {
+                      fileWriter.write(r.data)
+                      console.log(file)
+                      fileWriter.onwriteend = () => {
+                        this.$q.loading.hide()
+                        alert(`Файл успешно загружен в папку \n ${folderPath}${filename}.${mime.extension(r.data.type)}`)
+                        // var url = file.toURL()
+                        // console.log(cordova.file.externalApplicationStorageDirectory)
+                        // console.log(`${folderPath}${filename}.${mime.extension(r.data.type)}`)
+                        // cordova.plugins.fileOpener2.open(`${url}.${mime.extension(r.data.type)}`, r.data.type, {
+                        //   error: function error (err) {
+                        //     console.error(err)
+
+                        //     alert(`url: ${url}. folder: ${folderPath}${filename}.${mime.extension(r.data.type)}`)
+                        //   },
+                        //   success: function success () {
+                        //     console.log('success with opening the file')
+                        //   }
+                        // })
+                      }
+
+                      fileWriter.onerror = function (err) {
+                        alert('Ошибка загрузки повторите еще')
+                        console.error(err)
+                      }
+                    },
+                    (err) => {
+                      // failed
+                      alert('Ошибка загрузки повторите еще')
+                      this.$q.loading.hide()
+                      console.error(err)
+                    }
+                  )
+                },
+                (err) => {
+                  alert('Ошибка загрузки повторите еще')
+                  this.$q.loading.hide()
+                  console.error(err)
+                }
+              )
+            },
+            (err) => {
+              this.$q.loading.hide()
+              alert('Ошибка чтения файла')
+              console.error(err)
+            }
+          )
+        }, false)
+      })
     },
-    everythingIsFull() {
+    logOut () {
+      this.$q.localStorage.remove('token')
+      this.$router.push('/auth')
+      setTimeout(() => {
+        window.location.reload()
+      }, 100)
+    },
+    everythingIsFull () {
       if (
-        this.month === "" ||
+        this.month === '' ||
         this.month === null ||
-        this.year === "" ||
+        this.year === '' ||
         this.year === null
       ) {
-        return false;
+        return false
       }
-      return true;
+      return true
     },
-    requestPaymentForm(btn) {
+    requestPaymentForm (btn) {
       _.each(this.errors, (val, key) => {
-        this.errors[key] = null;
-      });
+        this.errors[key] = null
+      })
 
-      const fd = new FormData();
-      fd.append("period", "01.2020");
+      const fd = new FormData()
+      fd.append('period', '01.2020')
       // fd.append('reference_name', 'paysheet')
       // fd.append('period_start', this.period.from)
       // fd.append('period_end', this.period.to)
       // fd.append('comment', this.comment)
 
       api
-        .call("paymentForm", fd)
+        .call('paymentForm', fd)
         .then(({ data }) => {
-          console.log(data);
+          console.log(data)
           this.$router.push({
-            name: "paysheetinfo",
+            name: 'paysheetinfo',
             params: {
               info: data
             }
             // path: `/home/merchant/information/paysheet?info=${JSON.stringify()}`
-          });
+          })
           // const url = window.URL.createObjectURL(new Blob([data]))
           // const link = document.createElement('a')
           // link.href = url
@@ -231,27 +341,27 @@ export default {
         })
         .catch(this.$axios.errorHandler)
         .finally(() => {
-          btn.offLoad();
+          btn.offLoad()
           // this.$router.push('/home/merchant/information/paysheet')
-        });
+        })
     },
-    downloadFile(path) {
+    downloadFile (path) {
       // console.log(this.$axios.defaults.baseURL)
-      openURL(`${this.$axios.defaults.baseURL}${path}`);
+      openURL(`${this.$axios.defaults.baseURL}${path}`)
       // http://149.154.64.211/storage/common/filler_payform.pdf
     }
   },
-  mounted() {
-    const year = 2018;
-    const nowYear = this.$moment().format("YYYY");
-    this.optMonths = this.$utils.calendarLocale.months;
-    this.optYears = [];
+  mounted () {
+    const year = 2018
+    const nowYear = this.$moment().format('YYYY')
+    this.optMonths = this.$utils.calendarLocale.months
+    this.optYears = []
     // this.optYears =
     // TODO: Years from start work
     for (let inyear = year; inyear < nowYear; inyear++) {
-      this.optYears.push(inyear);
+      this.optYears.push(inyear)
     }
     // this.optYear =
   }
-};
+}
 </script>

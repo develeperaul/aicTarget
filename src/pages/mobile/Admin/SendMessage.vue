@@ -441,23 +441,29 @@
                 ) Отмена
 </template>
 <script>
-import OriginalButton from 'components/OriginalButton.vue'
-import InactiveButton from 'components/InactiveButton.vue'
-import HeaderSettings from 'components/HeaderSettings'
-import _ from 'lodash'
-import Api from 'modules/api'
-const api = new Api('Admin')
+import OriginalButton from "components/OriginalButton.vue";
+import InactiveButton from "components/InactiveButton.vue";
+import HeaderSettings from "components/HeaderSettings";
+import _ from "lodash";
+import Api from "modules/api";
+const api = new Api("Admin");
 
 // eslint-disable-next-line no-unused-vars
-import { Plugins, CameraResultType, CameraSource, FilesystemDirectory, FilesystemEncoding } from '@capacitor/core'
-const { Camera } = Plugins
+import {
+  Plugins,
+  CameraResultType,
+  CameraSource,
+  FilesystemDirectory,
+  FilesystemEncoding
+} from "@capacitor/core";
+const { Camera } = Plugins;
 // eslint-disable-next-line no-unused-vars
-const { Filesystem } = Plugins
-import getVideoId from 'get-video-id'
+const { Filesystem } = Plugins;
+import getVideoId from "get-video-id";
 
 export default {
   components: { OriginalButton, InactiveButton, HeaderSettings },
-  data () {
+  data() {
     return {
       dialog: {
         open: false
@@ -470,12 +476,12 @@ export default {
       holdActive: false,
       search: null,
       inputs: {
-        label: 'default',
+        label: "default",
         title: null,
         message: null
       },
       errors: {
-        label: 'default',
+        label: "default",
         title: null,
         message: null
       },
@@ -483,8 +489,8 @@ export default {
       project: null,
       projects: [
         {
-          label: 'Все',
-          value: 'all'
+          label: "Все",
+          value: "all"
         }
       ],
       listOfProjectsVisibility: false,
@@ -501,7 +507,7 @@ export default {
       convertedUrl: null,
       videos: [],
 
-      current_search: 'all',
+      current_search: "all",
       current_page_all: 1,
       last_page_all: 1,
       current_page_fio: 1,
@@ -512,51 +518,58 @@ export default {
       last_page_fio_project: 1,
       current_page_selected: 1,
       last_page_selected: 1
-    }
+    };
   },
 
-  mounted () {
-    this.showEmployees()
+  mounted() {
+    this.showEmployees();
 
-    api.call('projectList')
-      .then(({ data }) => {
-        _.each(data, (proj) => {
-          this.projects.push({
-            label: proj.name,
-            value: proj.id
-          })
-        })
-      })
+    api.call("projectList").then(({ data }) => {
+      _.each(data, proj => {
+        this.projects.push({
+          label: proj.name,
+          value: proj.id
+        });
+      });
+    });
   },
 
   methods: {
-    filter () {
-      if (this.search && this.project && this.project?.value !== 'all') {
-        this.current_search = 'fio_project'
-        this.showEmployeesByFioProject()
-      } else if (this.search && (!this.project || this.project?.value === 'all')) {
-        this.filterByFio()
-      } else if (this.project && this.project?.value !== 'all' && !this.search) {
-        this.filterByProject()
+    filter() {
+      if (this.search && this.project && this.project?.value !== "all") {
+        this.current_search = "fio_project";
+        this.showEmployeesByFioProject();
+      } else if (
+        this.search &&
+        (!this.project || this.project?.value === "all")
+      ) {
+        this.filterByFio();
+      } else if (
+        this.project &&
+        this.project?.value !== "all" &&
+        !this.search
+      ) {
+        this.filterByProject();
       } else {
-        this.showEmployees()
+        this.showEmployees();
       }
     },
-    showEmployeesByFioProject () {
+    showEmployeesByFioProject() {
       if (this.search) {
         if (this.selected_employees_ids.length > 0) {
-          this.holdActive = true
+          this.holdActive = true;
         }
-        const fd = new FormData()
-        fd.append('fio', this.search)
-        fd.append('project_id', this.project.value)
-        fd.append('page', this.current_page_fio_project)
+        const fd = new FormData();
+        fd.append("fio", this.search);
+        fd.append("project_id", this.project.value);
+        fd.append("page", this.current_page_fio_project);
 
-        api.call('showEmployeesByFioAndProject', fd)
+        api
+          .call("showEmployeesByFioAndProject", fd)
           .then(({ data }) => {
-            this.employees = []
-            this.current_page_fio_project = data.meta.current_page
-            this.last_page_fio_project = data.meta.last_page
+            this.employees = [];
+            this.current_page_fio_project = data.meta.current_page;
+            this.last_page_fio_project = data.meta.last_page;
             for (let i = 0; i < data.data.length; i++) {
               this.employees.push({
                 id: data.data[i].id,
@@ -567,61 +580,64 @@ export default {
                 project_id: data.data[i].project_id,
                 project_name: data.data[i].project_name,
                 // eslint-disable-next-line
-                selected: this.selected_employees_ids.includes(data.data[i].id) ? true : false
-              })
+                selected: this.selected_employees_ids.includes(data.data[i].id)
+                  ? true
+                  : false
+              });
             }
           })
-          .catch((data) => {
-            console.log(data)
+          .catch(data => {
+            console.log(data);
             if (data.response) {
-              const errors = data.response.data.errors
+              const errors = data.response.data.errors;
 
               _.each(errors, (messages, key) => {
-                console.log(key, this.errors[key])
+                console.log(key, this.errors[key]);
                 if (this.errors[key] !== undefined) {
-                  this.errors[key] = messages[0]
+                  this.errors[key] = messages[0];
                 }
-              })
+              });
             }
           })
           .finally(() => {
-            console.log(this.employees)
-          })
+            console.log(this.employees);
+          });
       } else {
-        this.showEmployees()
+        this.showEmployees();
       }
     },
-    showSelected () {
-      this.onlySelectedShown = !this.onlySelectedShown
+    showSelected() {
+      this.onlySelectedShown = !this.onlySelectedShown;
       if (this.onlySelectedShown) {
-        this.showSelectedEmployees()
+        this.showSelectedEmployees();
       } else {
-        this.filter()
+        this.filter();
       }
     },
-    selectEmployee (index, employeeId) {
-      this.employees[index].selected = !this.employees[index].selected
+    selectEmployee(index, employeeId) {
+      this.employees[index].selected = !this.employees[index].selected;
       if (!this.selected_employees_ids.includes(employeeId)) {
-        this.selected_employees_ids.push(employeeId)
+        this.selected_employees_ids.push(employeeId);
       } else {
-        const removeId = this.selected_employees_ids.indexOf(employeeId)
-        this.selected_employees_ids.splice(removeId, 1)
+        const removeId = this.selected_employees_ids.indexOf(employeeId);
+        this.selected_employees_ids.splice(removeId, 1);
       }
     },
-    showEmployees () {
-      this.current_search = 'all'
-      this.isLoading = true
+    showEmployees() {
+      this.current_search = "all";
+      this.isLoading = true;
       if (this.selected_employees_ids.length > 0) {
-        this.holdActive = true
+        this.holdActive = true;
       }
-      const fd = new FormData()
-      fd.append('page', this.current_page_all)
+      const fd = new FormData();
+      fd.append("page", this.current_page_all);
 
-      api.call('showEmployees', fd)
+      api
+        .call("showEmployees", fd)
         .then(({ data }) => {
-          this.employees = []
-          this.current_page_all = data.meta.current_page
-          this.last_page_all = data.meta.last_page
+          this.employees = [];
+          this.current_page_all = data.meta.current_page;
+          this.last_page_all = data.meta.last_page;
 
           for (let i = 0; i < data.data.length; i++) {
             this.employees.push({
@@ -633,46 +649,49 @@ export default {
               project_id: data.data[i].project_id,
               project_name: data.data[i].project_name,
               // eslint-disable-next-line
-              selected: this.selected_employees_ids.includes(data.data[i].id) ? true : false
-            })
+              selected: this.selected_employees_ids.includes(data.data[i].id)
+                ? true
+                : false
+            });
           }
         })
-        .catch((data) => {
-          console.log(data)
+        .catch(data => {
+          console.log(data);
           if (data.response) {
-            const errors = data.response.data.errors
+            const errors = data.response.data.errors;
 
             _.each(errors, (messages, key) => {
-              console.log(key, this.errors[key])
+              console.log(key, this.errors[key]);
               if (this.errors[key] !== undefined) {
-                this.errors[key] = messages[0]
+                this.errors[key] = messages[0];
               }
-            })
+            });
           }
         })
         .finally(() => {
-          this.isLoading = false
-        })
+          this.isLoading = false;
+        });
     },
-    showSelectedEmployees () {
-      this.current_search = 'selected'
-      this.isLoading = true
+    showSelectedEmployees() {
+      this.current_search = "selected";
+      this.isLoading = true;
       if (this.selected_employees_ids.length > 0) {
-        this.holdActive = true
+        this.holdActive = true;
       }
-      const fd = new FormData()
+      const fd = new FormData();
 
-      fd.append('page', this.current_page_selected)
+      fd.append("page", this.current_page_selected);
 
-      _.each(this.selected_employees_ids, (id) => {
-        fd.append('selected_employees_ids[]', id)
-      })
+      _.each(this.selected_employees_ids, id => {
+        fd.append("selected_employees_ids[]", id);
+      });
 
-      api.call('showSelectedEmployees', fd)
+      api
+        .call("showSelectedEmployees", fd)
         .then(({ data }) => {
-          this.employees = []
-          this.current_page_selected = data.meta.current_page
-          this.last_page_selected = data.meta.last_page
+          this.employees = [];
+          this.current_page_selected = data.meta.current_page;
+          this.last_page_selected = data.meta.last_page;
 
           for (let i = 0; i < data.data.length; i++) {
             this.employees.push({
@@ -684,45 +703,48 @@ export default {
               project_id: data.data[i].project_id,
               project_name: data.data[i].project_name,
               // eslint-disable-next-line
-              selected: this.selected_employees_ids.includes(data.data[i].id) ? true : false
-            })
+              selected: this.selected_employees_ids.includes(data.data[i].id)
+                ? true
+                : false
+            });
           }
         })
-        .catch((data) => {
-          console.log(data)
+        .catch(data => {
+          console.log(data);
           if (data.response) {
-            const errors = data.response.data.errors
+            const errors = data.response.data.errors;
 
             _.each(errors, (messages, key) => {
-              console.log(key, this.errors[key])
+              console.log(key, this.errors[key]);
               if (this.errors[key] !== undefined) {
-                this.errors[key] = messages[0]
+                this.errors[key] = messages[0];
               }
-            })
+            });
           }
         })
         .finally(() => {
-          this.isLoading = false
-        })
+          this.isLoading = false;
+        });
     },
-    filterByFio () {
-      this.current_search = 'fio'
-      this.showEmployeesByFio()
+    filterByFio() {
+      this.current_search = "fio";
+      this.showEmployeesByFio();
     },
-    showEmployeesByFio () {
+    showEmployeesByFio() {
       if (this.search) {
         if (this.selected_employees_ids.length > 0) {
-          this.holdActive = true
+          this.holdActive = true;
         }
-        const fd = new FormData()
-        fd.append('fio', this.search)
-        fd.append('page', this.current_page_fio)
+        const fd = new FormData();
+        fd.append("fio", this.search);
+        fd.append("page", this.current_page_fio);
 
-        api.call('showEmployeesByFio', fd)
+        api
+          .call("showEmployeesByFio", fd)
           .then(({ data }) => {
-            this.employees = []
-            this.current_page_fio = data.meta.current_page
-            this.last_page_fio = data.meta.last_page
+            this.employees = [];
+            this.current_page_fio = data.meta.current_page;
+            this.last_page_fio = data.meta.last_page;
             for (let i = 0; i < data.data.length; i++) {
               this.employees.push({
                 id: data.data[i].id,
@@ -733,52 +755,55 @@ export default {
                 project_id: data.data[i].project_id,
                 project_name: data.data[i].project_name,
                 // eslint-disable-next-line
-                selected: this.selected_employees_ids.includes(data.data[i].id) ? true : false
-              })
+                selected: this.selected_employees_ids.includes(data.data[i].id)
+                  ? true
+                  : false
+              });
             }
           })
-          .catch((data) => {
-            console.log(data)
+          .catch(data => {
+            console.log(data);
             if (data.response) {
-              const errors = data.response.data.errors
+              const errors = data.response.data.errors;
 
               _.each(errors, (messages, key) => {
-                console.log(key, this.errors[key])
+                console.log(key, this.errors[key]);
                 if (this.errors[key] !== undefined) {
-                  this.errors[key] = messages[0]
+                  this.errors[key] = messages[0];
                 }
-              })
+              });
             }
           })
           .finally(() => {
-            console.log(this.employees)
-          })
+            console.log(this.employees);
+          });
       } else {
-        this.showEmployees()
+        this.showEmployees();
       }
     },
-    filterByProject () {
-      if (this.project.value === 'all') {
-        this.current_search = 'all'
-        this.showEmployees()
+    filterByProject() {
+      if (this.project.value === "all") {
+        this.current_search = "all";
+        this.showEmployees();
       } else {
-        this.current_search = 'project'
-        this.showEmployeesByProject()
+        this.current_search = "project";
+        this.showEmployeesByProject();
       }
     },
-    showEmployeesByProject () {
+    showEmployeesByProject() {
       if (this.selected_employees_ids.length > 0) {
-        this.holdActive = true
+        this.holdActive = true;
       }
-      const fd = new FormData()
-      fd.append('project_id', this.project.value)
-      fd.append('page', this.current_page_project)
+      const fd = new FormData();
+      fd.append("project_id", this.project.value);
+      fd.append("page", this.current_page_project);
 
-      api.call('showEmployeesByProject', fd)
+      api
+        .call("showEmployeesByProject", fd)
         .then(({ data }) => {
-          this.employees = []
-          this.current_page_project = data.meta.current_page
-          this.last_page_project = data.meta.last_page
+          this.employees = [];
+          this.current_page_project = data.meta.current_page;
+          this.last_page_project = data.meta.last_page;
           for (let i = 0; i < data.data.length; i++) {
             this.employees.push({
               id: data.data[i].id,
@@ -789,160 +814,160 @@ export default {
               project_id: data.data[i].project_id,
               project_name: data.data[i].project_name,
               // eslint-disable-next-line
-              selected: this.selected_employees_ids.includes(data.data[i].id) ? true : false
-            })
+              selected: this.selected_employees_ids.includes(data.data[i].id)
+                ? true
+                : false
+            });
           }
         })
-        .catch((data) => {
-          console.log(data)
+        .catch(data => {
+          console.log(data);
           if (data.response) {
-            const errors = data.response.data.errors
+            const errors = data.response.data.errors;
 
             _.each(errors, (messages, key) => {
-              console.log(key, this.errors[key])
+              console.log(key, this.errors[key]);
               if (this.errors[key] !== undefined) {
-                this.errors[key] = messages[0]
+                this.errors[key] = messages[0];
               }
-            })
+            });
           }
         })
         .finally(() => {
-          console.log(this.employees)
-        })
+          console.log(this.employees);
+        });
     },
-    sendMessage (btn) {
+    sendMessage(btn) {
       _.each(this.errors, (val, key) => {
-        this.errors[key] = null
-      })
+        this.errors[key] = null;
+      });
 
-      const fd = new FormData()
+      const fd = new FormData();
 
-      _.each(this.selected_employees_ids, (id) => {
-        fd.append('user_ids[]', id)
-      })
+      _.each(this.selected_employees_ids, id => {
+        fd.append("user_ids[]", id);
+      });
 
-      _.each(
-        this.inputs,
-        (val, key) => fd.append(key, val)
-      )
+      _.each(this.inputs, (val, key) => fd.append(key, val));
 
-      _.each(this.images, (val) => {
-        if (val.startsWith('data:')) {
-          fd.append('photos[]', this.$axios.dataURLtoBlob(val))
+      _.each(this.images, val => {
+        if (val.startsWith("data:")) {
+          fd.append("photos[]", this.$axios.dataURLtoBlob(val));
         } else {
-          fd.append('photos[]', val)
+          fd.append("photos[]", val);
         }
-      })
+      });
 
-      _.each(this.docs, (val) => {
-        if (val.data.startsWith('data:')) {
-          fd.append('docs[]', this.$axios.dataURLtoBlob(val.data))
+      _.each(this.docs, val => {
+        if (val.data.startsWith("data:")) {
+          fd.append("docs[]", this.$axios.dataURLtoBlob(val.data));
         } else {
-          fd.append('docs[]', val.data)
+          fd.append("docs[]", val.data);
         }
-      })
+      });
 
-      _.each(this.videos, (val) => {
-        fd.append('videos[]', val)
-      })
+      _.each(this.videos, val => {
+        fd.append("videos[]", val);
+      });
 
-      api.call('sendMessage', fd)
+      api
+        .call("sendMessage", fd)
         .then(({ data }) => {
-          this.$q.notify('Сообщение отправлено')
-          this.$router.push('/home/admin')
+          this.$q.notify("Сообщение отправлено");
+          this.$router.push("/home/admin");
         })
-        .catch((data) => {
-          console.log(data)
+        .catch(data => {
+          console.log(data);
           if (data.response) {
-            const errors = data.response.data.errors
+            const errors = data.response.data.errors;
 
             _.each(errors, (messages, key) => {
-              console.log(key, this.errors[key])
+              console.log(key, this.errors[key]);
               if (this.errors[key] !== undefined) {
-                this.errors[key] = messages[0]
+                this.errors[key] = messages[0];
               }
-            })
+            });
           }
         })
         .finally(() => {
-          btn.offLoad()
-        })
+          btn.offLoad();
+        });
     },
-    everythingIsFull () {
+    everythingIsFull() {
       if (this.inputs.title && this.inputs.message) {
-        return true
+        return true;
       }
     },
-    handleHold (evt, indexEmployer, employeeId) {
-      this.holdActive = true
-      this.employees[indexEmployer].selected = true
+    handleHold(evt, indexEmployer, employeeId) {
+      this.holdActive = true;
+      this.employees[indexEmployer].selected = true;
       if (!this.selected_employees_ids.includes(employeeId)) {
-        this.selected_employees_ids.push(employeeId)
+        this.selected_employees_ids.push(employeeId);
       } else {
-        const removeId = this.selected_employees_ids.indexOf(employeeId)
-        this.selected_employees_ids.splice(removeId, 1)
+        const removeId = this.selected_employees_ids.indexOf(employeeId);
+        this.selected_employees_ids.splice(removeId, 1);
       }
     },
-    cancelSelection () {
-      this.selectAll = false
+    cancelSelection() {
+      this.selectAll = false;
       this.employees.forEach(elem => {
-        elem.selected = false
-      })
-      this.selected_employees_ids = []
+        elem.selected = false;
+      });
+      this.selected_employees_ids = [];
 
       this.$nextTick(() => {
-        this.holdActive = false
-      })
+        this.holdActive = false;
+      });
     },
-    isYoutubeLink (val) {
-      const url = getVideoId(val)
+    isYoutubeLink(val) {
+      const url = getVideoId(val);
       if (url.id) {
-        if (url.service === 'youtube') {
-          return true
+        if (url.service === "youtube") {
+          return true;
         } else {
-          return false
+          return false;
         }
       }
     },
-    onRemoveDoc (index) {
-      this.docs.splice(index, 1)
-      this.$refs[`${index}-slade`].reset()
+    onRemoveDoc(index) {
+      this.docs.splice(index, 1);
+      this.$refs[`${index}-slade`].reset();
     },
-    onRemoveImg (index) {
-      this.images.splice(index, 1)
-      this.$refs[`${index}-slade`].reset()
+    onRemoveImg(index) {
+      this.images.splice(index, 1);
+      this.$refs[`${index}-slade`].reset();
     },
-    removeVideo (index) {
-      this.videos.splice(index, 1)
-      this.$refs[`${index}-slade`].reset()
+    removeVideo(index) {
+      this.videos.splice(index, 1);
+      this.$refs[`${index}-slade`].reset();
     },
-    fileDataURL (file) {
+    fileDataURL(file) {
       return new Promise((resolve, reject) => {
-        const fr = new FileReader()
-        fr.onload = () => resolve(fr.result)
-        fr.onerror = reject
-        fr.readAsDataURL(file)
-      })
+        const fr = new FileReader();
+        fr.onload = () => resolve(fr.result);
+        fr.onerror = reject;
+        fr.readAsDataURL(file);
+      });
     },
-    async fileSelect (type, files, file) {
-      if (type === 'photo') {
-        console.log(files, file)
-        const image = await this.fileDataURL(this.$refs.uploadPhoto.files[0])
+    async fileSelect(type, files, file) {
+      if (type === "photo") {
+        console.log(files, file);
+        const image = await this.fileDataURL(this.$refs.uploadPhoto.files[0]);
 
-        this.images.push(image)
-      } else if (type === 'doc') {
-        console.log(this.$refs.uploadFile.files[0])
-        const docName = this.$refs.uploadFile.files[0].name
-        const docData = await this.fileDataURL(this.$refs.uploadFile.files[0])
+        this.images.push(image);
+      } else if (type === "doc") {
+        console.log(this.$refs.uploadFile.files[0]);
+        const docName = this.$refs.uploadFile.files[0].name;
+        const docData = await this.fileDataURL(this.$refs.uploadFile.files[0]);
 
         this.docs.push({
           name: docName,
           data: docData
-        })
+        });
       }
 
       // this.modal.open = false
-      this.downloadDialog.open = false
+      this.downloadDialog.open = false;
     },
     // async docSelect () {
     //   const doc = await Filesystem.readFile({
@@ -952,126 +977,128 @@ export default {
 
     //   this.docs.push(doc)
     // },
-    async photoSelect () {
+    async photoSelect() {
       const image = await Camera.getPhoto({
         source: CameraSource.Photos,
         quality: 90,
         resultType: CameraResultType.DataUrl
-      })
+      });
 
-      this.images.push(image.dataUrl)
+      this.images.push(image.dataUrl);
 
       // this.modal.open = false
-      this.downloadDialog.open = false
+      this.downloadDialog.open = false;
     },
-    async photoCamera () {
+    async photoCamera() {
       await navigator.camera.getPicture(
-        data => { // on success
-          console.log(data)
-          this.images.push(`data:image/jpeg;base64,${data}`)
+        data => {
+          // on success
+          console.log(data);
+          this.images.push(`data:image/jpeg;base64,${data}`);
         },
-        () => { // on fail
-          this.$q.notify('Could not access device camera.')
+        () => {
+          // on fail
+          this.$q.notify("Could not access device camera.");
         },
         {
           destinationType: 0
         }
-      )
+      );
     },
-    showPreview () {
-      const url = getVideoId(this.videoUrl)
+    showPreview() {
+      const url = getVideoId(this.videoUrl);
       if (url.id) {
-        if (url.service === 'youtube') {
-          this.convertedUrl = `https://www.youtube.com/embed/${url.id}`
+        if (url.service === "youtube") {
+          this.convertedUrl = `https://www.youtube.com/embed/${url.id}`;
         }
       }
     },
-    addLink () {
-      this.videos.push(this.videoUrl)
-      this.videoUrl = this.convertedUrl = null
+    addLink() {
+      this.videos.push(this.videoUrl);
+      this.videoUrl = this.convertedUrl = null;
       // this.modal.open = false
-      this.downloadDialog.open = false
-      this.youtubeDialog.open = false
+      this.downloadDialog.open = false;
+      this.youtubeDialog.open = false;
     }
   },
 
   computed: {
-    mode () {
-      return process.env.MODE
+    mode() {
+      return process.env.MODE;
     }
   },
 
   watch: {
-    selectAll () {
+    selectAll() {
       if (this.selectAll) {
         this.employees.forEach(elem => {
-          elem.selected = this.selectAll
-        })
-        this.selected_employees_ids = []
+          elem.selected = this.selectAll;
+        });
+        this.selected_employees_ids = [];
         _.each(this.employees, (employee, key) => {
-          this.selected_employees_ids.push(employee.id)
-        })
+          this.selected_employees_ids.push(employee.id);
+        });
       } else {
         this.employees.forEach(elem => {
-          elem.selected = false
-        })
-        this.selected_employees_ids = []
+          elem.selected = false;
+        });
+        this.selected_employees_ids = [];
       }
 
       if (!this.holdActive) {
-        this.holdActive = true
+        this.holdActive = true;
       }
     }
   }
-}
+};
 </script>
 <style scoped lang="scss">
-  .height-dialog {
-    height: 75%;
-  }
-  .border-radius-10 {
-    border-radius: 10px
-  }
-  .wrapper {
-    display:flex;
-    flex-direction: column;
-  }
-  .bottomButton {
-    flex-grow: 1;
-    align-items: flex-end;
-    flex: 1;
-  }
-  .div-no-wrap {
-    width: 80%;
-    align-self: self-end;
-    display: flex;
-  }
-  .text-no-wrap {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .img-blank {
-    height: 110px;
-    border-radius: 5px;
-  }
-  .click-photo {
-    width: 100%;
-    height: 100%;
-  }
-  .button-remove {
-    position: absolute;
-    transform: translate(25%, -25%);
-    top: 0px;
-    right: 0px;
-    z-index: 1;
-  }
-  .checkbox-border {
-    border: 1px !important;
-    border-radius: 5px !important;
-  }
-  .checkbox-size {
-    width: 30px;
-    height: 20px;
-  }
+.height-dialog {
+  height: 75%;
+}
+.border-radius-10 {
+  border-radius: 10px;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.bottomButton {
+  flex-grow: 1;
+  align-items: flex-end;
+  flex: 1;
+}
+.div-no-wrap {
+  width: 80%;
+  align-self: self-end;
+  display: flex;
+}
+.text-no-wrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.img-blank {
+  height: 110px;
+  border-radius: 5px;
+}
+.click-photo {
+  width: 100%;
+  height: 100%;
+}
+.button-remove {
+  position: absolute;
+  transform: translate(25%, -25%);
+  top: 0px;
+  right: 0px;
+  z-index: 1;
+}
+.checkbox-border {
+  border: 1px !important;
+  border-radius: 5px !important;
+}
+.checkbox-size {
+  width: 30px;
+  height: 20px;
+}
 </style>
