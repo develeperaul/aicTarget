@@ -42,24 +42,48 @@
       //-       span.q-py-lg.row.justify-between.items-center.no-wrap(@click="downloadFile('/storage/common/blank_everyyear.doc')")
       //-         | Бланк на ежегодный отпуск
       //-         q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
+      //- q-item.no-padding
+      //-   q-item-section
+      //-     q-item-label
+      //-       span.q-py-lg.row.justify-between.items-center.no-wrap(@click="getPayrollProcedure")
+      //-         | Памятка о порядке начисления заработной платы
+      //-         q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
       q-item.no-padding
         q-item-section
           q-item-label
-            span.q-py-lg.row.justify-between.items-center.no-wrap(@click="downloadFile('/storage/common/blank_transfer_everyyear.doc')")
+            span.q-py-lg.row.justify-between.items-center.no-wrap(@click="$refs.uploadPriod.click()")
               | Бланк на перенос ежегодного отпуска
               q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
+            a(
+                    href="https://atconnect.ru/storage/document_templates/vacation_period_change.doc"
+                    download
+                    ref="uploadPriod"
+                    style="display:none"
+                  )
       q-item.no-padding
         q-item-section
           q-item-label
-            span.q-py-lg.row.justify-between.items-center.no-wrap(@click="downloadFile('/storage/common/blank_administrative.doc')")
+            span.q-py-lg.row.justify-between.items-center.no-wrap(@click="$refs.uploadAdm.click()")
               | Бланк на административный отпуск
               q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
+            a(
+                    href="https://atconnect.ru/storage/document_templates/administrative_vacation.docx"
+                    download
+                    ref="uploadAdm"
+                    style="display:none"
+                  )
       q-item.no-padding
         q-item-section
           q-item-label
-            router-link.q-py-lg.row.justify-between.items-center.no-wrap(tag="span",to="/home/merchant/information/vacation/annual")
+            span.q-py-lg.row.justify-between.items-center.no-wrap(@click="$refs.uploadAnn.click()")
               | Бланк на ежегодный отпуск
               q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
+            a(
+                href="https://atconnect.ru/storage/document_templates/annual_vacation.docx"
+                download
+                ref="uploadAnn"
+                style="display:none"
+              )
       q-separator
     q-item
       q-item-section
@@ -195,6 +219,7 @@
 </template>
 <script>
 import Api from 'modules/api'
+import mime from 'mime-types'
 const api = new Api('HomeMerchant')
 import _ from 'lodash'
 import { openURL } from 'quasar'
@@ -222,6 +247,86 @@ export default {
     }
   },
   methods: {
+    getPayrollProcedure () {
+      // getPlanogram
+      this.$q.loading.show()
+      api.call('getPayrollProcedure', this.project_id).then((r) => {
+        const filename = 'Памятка по начислениям зарплаты'
+        window.document.addEventListener('deviceready', () => {
+          let storageLocation = ''
+
+          switch (cordova.platformId.toLowerCase()) {
+            case 'android':
+
+              storageLocation = cordova.file.externalDataDirectory
+              break
+
+            case 'ios':
+              storageLocation = cordova.file.documentsDirectory
+              break
+          }
+          const folderPath = storageLocation
+          console.log(mime.extension(r.data.type))
+          window.resolveLocalFileSystemURL(
+            folderPath,
+            (dir) => {
+              dir.getFile(
+                filename,
+                {
+                  create: true
+                },
+                (file) => {
+                  file.createWriter(
+                    (fileWriter) => {
+                      fileWriter.write(r.data)
+                      console.log(file)
+                      fileWriter.onwriteend = () => {
+                        this.$q.loading.hide()
+                        alert(`Файл успешно загружен в папку \n ${folderPath}${filename}.${mime.extension(r.data.type)}`)
+                        // var url = file.toURL()
+                        // console.log(cordova.file.externalApplicationStorageDirectory)
+                        // console.log(`${folderPath}${filename}.${mime.extension(r.data.type)}`)
+                        // cordova.plugins.fileOpener2.open(`${url}.${mime.extension(r.data.type)}`, r.data.type, {
+                        //   error: function error (err) {
+                        //     console.error(err)
+
+                        //     alert(`url: ${url}. folder: ${folderPath}${filename}.${mime.extension(r.data.type)}`)
+                        //   },
+                        //   success: function success () {
+                        //     console.log('success with opening the file')
+                        //   }
+                        // })
+                      }
+
+                      fileWriter.onerror = function (err) {
+                        alert('Ошибка загрузки повторите еще')
+                        console.error(err)
+                      }
+                    },
+                    (err) => {
+                      // failed
+                      alert('Ошибка загрузки повторите еще')
+                      this.$q.loading.hide()
+                      console.error(err)
+                    }
+                  )
+                },
+                (err) => {
+                  alert('Ошибка загрузки повторите еще')
+                  this.$q.loading.hide()
+                  console.error(err)
+                }
+              )
+            },
+            (err) => {
+              this.$q.loading.hide()
+              alert('Ошибка чтения файла')
+              console.error(err)
+            }
+          )
+        }, false)
+      })
+    },
     logOut () {
       this.$q.localStorage.remove('token')
       this.$router.push('/auth')

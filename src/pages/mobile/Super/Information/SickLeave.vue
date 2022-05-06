@@ -131,9 +131,93 @@
       q-item
         q-item-section
           q-item-label
+            q-input(
+              bg-color="grey-2"
+              outlined
+              label="Дата зыкрытия больничного"
+              color="red"
+              ref="dataTarget"
+              @click="showCalendar()"
+              :value="periodEnd"
+            )
+            q-slide-transition
+              q-item-label(
+                v-if="calendarVisibility"
+                transition-show="slide-down"
+                transition-hide="slide-up"
+              )
+                q-date.full-width(
+                  ref="dateSickLeave"
+                  flat
+                  mask="DD.MM.YYYY"
+                  minimal
+                  :locale="$utils.calendarLocale"
+                  v-model="periodEnd"
+                )
+                  //- @click="setDisplayedPeriod()"
+      q-item
+        q-item-section
+          q-item-label
+            .q-pt-lg.text-weight-550 Фото больничного листа:
+      q-item.q-pb-none.q-pt-sm
+        q-item-section
+          .row.q-col-gutter-xs(
+            v-if="photos.length != 0"
+          )
+            .col-6.relative-position(
+              v-for="(item, key) in photos"
+              :key="key"
+            )
+              q-img.img-blank(
+                :src="url[item] ? url[item] : item"
+              )
+                .click-photo(
+                  v-gallery
+                  :data-large="url[item] ? url[item] : item"
+                )
+                .button-remove(
+                  @click="onRemove(key)"
+                )
+                  inline-svg(width="21" height="24" :src="require('assets/delete.svg')")
+          .text-grey-6(
+            v-else
+          ) Размер фото не должен превышать 20 Мб
+      q-item
+        q-item-section
+          q-item-label.relative-position
+            file-input(
+              v-if="mode == 'spa'"
+              ref="uploadFile"
+              accept="image/*"
+              @change="fileSelect"
+            )
+            .row.items-center.justify-evenly.no-wrap
+              q-btn.q-px-xl(
+                @click="mode == 'spa' ? $refs.uploadFile.click() : photoSelect()"
+                padding="md lg"
+                :disable="photos.length > 9"
+                :color="photos.length > 9 ? 'grey-1' : 'white'"
+                :class="{'shadow-7': photos.length <= 9}"
+              )
+                inline-svg(width="22" height="22" :src="photos.length <= 9 ? require('assets/clip.svg') : require('assets/white-clip.svg')")
+              q-btn.q-px-xl.q-ml-sm(
+                @click="mode == 'spa' ? $refs.uploadFile.click() : photoCamera()"
+                padding="md lg"
+                :disable="photos.length > 9"
+                :color="photos.length > 9 ? 'grey-1' : 'white'"
+                :class="{'shadow-7': photos.length <= 9}"
+              )
+                inline-svg(width="24" height="22" :src="photos.length <= 9 ? require('assets/camera.svg') : require('assets/white-camera.svg')")
+      q-item.bottomButton
+        q-item-section
+          q-item-label
             OriginalButton(
+              v-if="everythingIsFullClose()"
               color="red-2"
               @click="fromVac"
+            ) Закрыть больничный
+            InactiveButton(
+              v-else
             ) Закрыть больничный
 </template>
 <script>
@@ -154,7 +238,8 @@ export default {
     url: {},
     displayedPeriod: null,
     endDateUnknown: false,
-    calendarVisibility: false
+    calendarVisibility: false,
+    periodEnd: null
   }),
   watch: {
     endDateUnknown () {
@@ -217,28 +302,33 @@ export default {
         })
     },
     fromVac (btn) {
+      const fd = new FormData()
       _.each(this.errors, (val, key) => {
         this.errors[key] = null
       })
+      fd.append('period_end', this.periodEnd)
+      _.each(this.photos, (val) => {
+        if (val.startsWith('data:')) {
+          fd.append('photos[]', this.$axios.dataURLtoBlob(val))
+        } else {
+          fd.append('photos[]', val)
+        }
+      })
 
-      api.call('fromVac')
+      api.call('fromVac', fd)
         .then(({ data }) => {
-          this.$q.notify('Больничный закрыт')
-          // this.$router.push('/home/admin')
-        })
-        .catch((data) => {
-          console.log(data)
-          if (data.response) {
-            const errors = data.response.data.errors
-
-            _.each(errors, (messages, key) => {
-              console.log(key, this.errors[key])
-              if (this.errors[key] !== undefined) {
-                this.errors[key] = messages[0]
+          this.$store.dispatch('user/fetchInfo')
+            .then(() => {
+              const info = this.$store.state.user.info
+              if (info.has_need_fired) {
+                this.$router.push('/fired')
               }
             })
-          }
+          this.$q.notify('Больничный закрыт')
+          this.$router.push('/home/merchant/information')
+          // this.$router.push('/home/admin')
         })
+        .catch(this.$axios.errorHandler)
         .finally(() => {
           btn.offLoad()
         })
@@ -247,6 +337,12 @@ export default {
       if (this.endDateUnknown || this.displayedPeriod) {
         return true
       } return false
+    },
+    everythingIsFullClose () {
+      return true
+      // if (this.periodEnd) {
+      //   return true
+      // } return false
     },
     showCalendar () {
       this.calendarVisibility = !this.calendarVisibility

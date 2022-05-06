@@ -215,7 +215,7 @@ export default {
       params += '&middlename=' + this.userInfo.passport.patronymic
       params += '&period_start=' + period.period_start
       params += '&period_end=' + period.period_end
-      openURL(`${this.$axios.defaults.baseURL}api/v1/vacation/blanks/show-example${params}`)
+      openURL(`${this.$axios.defaults.baseURL}/api/v1/vacation/blanks/show-example${params}`)
       // http://149.154.64.211/api/v1/vacation/blanks/show-example?full_name=asd%20asd&period_start=14.14.44&period_end=145.64.123
     }
   },

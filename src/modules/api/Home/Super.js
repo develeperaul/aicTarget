@@ -73,7 +73,7 @@ class HomeSuper {
     }
   })
 
-  fromVac = () => axios.post('api/v1/user/medical/from', {
+  fromVac = (data) => axios.post('api/v1/user/medical/from', data, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
