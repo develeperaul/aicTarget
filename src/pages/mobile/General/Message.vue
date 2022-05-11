@@ -292,13 +292,20 @@ export default {
     },
 
     async photoSelect () {
-      const image = await Camera.getPhoto({
-        source: CameraSource.Photos,
-        quality: 90,
-        resultType: CameraResultType.DataUrl
-      })
-
-      this.images.push(image.dataUrl)
+      navigator.camera.getPicture(
+        data => { // on success
+          console.log(data)
+          this.images.push(`data:image/jpeg;base64,${data}`)
+          console.log(this.images)
+        },
+        () => { // on fail
+          this.$q.notify('Could not access device camera.')
+        },
+        {
+          sourceType: navigator.camera.PictureSourceType.SAVEDPHOTOALBUM,
+          destinationType: navigator.camera.DestinationType.DATA_URL
+        }
+      )
     },
     async photoCamera () {
       await navigator.camera.getPicture(
