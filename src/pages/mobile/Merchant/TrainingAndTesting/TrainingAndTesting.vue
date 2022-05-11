@@ -120,7 +120,7 @@ export default {
       // getPlanogram
       this.$q.loading.show();
       api.call("getMerchandiserNotebook", this.project_id).then(r => {
-        const filename = "Тетрадь мерчендайзера";
+        const filename = `Тетрадь мерчендайзера.${mime.extension(r.data.type)}`;
         window.document.addEventListener(
           "deviceready",
           () => {
@@ -149,13 +149,10 @@ export default {
                     file.createWriter(
                       fileWriter => {
                         fileWriter.write(r.data);
-                        console.log(file);
                         fileWriter.onwriteend = () => {
                           this.$q.loading.hide();
                           alert(
-                            `Файл успешно загружен в папку \n ${folderPath}${filename}.${mime.extension(
-                              r.data.type
-                            )}`
+                            `Файл успешно загружен в папку \n ${folderPath}${filename}`
                           );
                           // var url = file.toURL()
                           // console.log(cordova.file.externalApplicationStorageDirectory)
@@ -207,7 +204,7 @@ export default {
       // getPlanogram
       this.$q.loading.show();
       api.call("getPlanogram", this.project_id).then(r => {
-        const filename = "Планограммы";
+        const filename = `Планограммы.${mime.extension(r.data.type)}`;
         window.document.addEventListener(
           "deviceready",
           () => {
@@ -240,9 +237,7 @@ export default {
                         fileWriter.onwriteend = () => {
                           this.$q.loading.hide();
                           alert(
-                            `Файл успешно загружен в папку \n ${folderPath}${filename}.${mime.extension(
-                              r.data.type
-                            )}`
+                            `Файл успешно загружен в папку \n ${folderPath}${filename}`
                           );
                           // var url = file.toURL()
                           // console.log(cordova.file.externalApplicationStorageDirectory)

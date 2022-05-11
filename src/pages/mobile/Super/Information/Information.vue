@@ -160,7 +160,7 @@ export default {
       // getPlanogram
       this.$q.loading.show()
       api.call('getPayrollProcedure', this.project_id).then((r) => {
-        const filename = 'Памятка по начислениям зарплаты'
+        const filename = `Памятка по начислениям зарплаты.${mime.extension(r.data.type)}`
         window.document.addEventListener('deviceready', () => {
           let storageLocation = ''
 
@@ -191,7 +191,7 @@ export default {
                       console.log(file)
                       fileWriter.onwriteend = () => {
                         this.$q.loading.hide()
-                        alert(`Файл успешно загружен в папку \n ${folderPath}${filename}.${mime.extension(r.data.type)}`)
+                        alert(`Файл успешно загружен в папку \n ${folderPath}${filename}`)
                         // var url = file.toURL()
                         // console.log(cordova.file.externalApplicationStorageDirectory)
                         // console.log(`${folderPath}${filename}.${mime.extension(r.data.type)}`)
