@@ -42,12 +42,12 @@
             router-link.q-py-lg.row.justify-between.items-center.no-wrap(tag="span",to="/home/super/territory/probation")
               | Обратная связь по результатам стажировки
               q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
-      q-item.no-padding
-        q-item-section
-          q-item-label
-            router-link.q-py-lg.row.justify-between.items-center.no-wrap(tag="span",to="/home/super/territory/vacation-schedule")
-              | График отпусков
-              q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
+      //- q-item.no-padding
+      //-   q-item-section
+      //-     q-item-label
+      //-       router-link.q-py-lg.row.justify-between.items-center.no-wrap(tag="span",to="/home/super/territory/vacation-schedule")
+      //-         | График отпусков
+      //-         q-icon.q-pr-md(name="mdi-chevron-right" size="20px")
       q-item.no-padding
         q-item-section
           q-item-label
@@ -131,9 +131,9 @@
                 ) Отмена
 </template>
 <script>
-import OriginalButton from "components/OriginalButton.vue";
-import InactiveButton from "components/InactiveButton.vue";
-import HeaderSettings from "components/HeaderSettings";
+import OriginalButton from 'components/OriginalButton.vue'
+import InactiveButton from 'components/InactiveButton.vue'
+import HeaderSettings from 'components/HeaderSettings'
 
 export default {
   components: { OriginalButton, InactiveButton, HeaderSettings },
@@ -150,36 +150,36 @@ export default {
     }
   }),
   methods: {
-    logOut() {
-      this.$q.localStorage.remove("token");
-      this.$router.push("/auth");
+    logOut () {
+      this.$q.localStorage.remove('token')
+      this.$router.push('/auth')
       setTimeout(() => {
-        window.location.reload();
-      }, 100);
+        window.location.reload()
+      }, 100)
     },
-    everythingIsFull() {
+    everythingIsFull () {
       if (
-        this.month === "" ||
+        this.month === '' ||
         this.month === null ||
-        this.year === "" ||
+        this.year === '' ||
         this.year === null
       ) {
-        return false;
+        return false
       }
-      return true;
+      return true
     }
   },
-  mounted() {
-    const year = 2018;
-    const nowYear = this.$moment().format("YYYY");
-    this.optMonths = this.$utils.calendarLocale.months;
-    this.optYears = [];
+  mounted () {
+    const year = 2018
+    const nowYear = this.$moment().format('YYYY')
+    this.optMonths = this.$utils.calendarLocale.months
+    this.optYears = []
     // this.optYears =
     // TODO: Years from start work
     for (let inyear = year; inyear < nowYear; inyear++) {
-      this.optYears.push(inyear);
+      this.optYears.push(inyear)
     }
     // this.optYear =
   }
-};
+}
 </script>
