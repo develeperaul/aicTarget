@@ -271,9 +271,9 @@ export default {
         fd.append('period_end', this.sickLeavePeriod.to)
       }
 
-      _.each(this.photos, (val) => {
+      _.each(this.photos, (val, key) => {
         if (val.startsWith('data:')) {
-          fd.append('photos[]', this.$axios.dataURLtoBlob(val))
+          fd.append('photos[]', this.$axios.dataURLtoBlob(val), `${key}.jpg`)
         } else {
           fd.append('photos[]', val)
         }
@@ -307,9 +307,9 @@ export default {
         this.errors[key] = null
       })
       fd.append('period_end', this.periodEnd)
-      _.each(this.photos, (val) => {
+      _.each(this.photos, (val, key) => {
         if (val.startsWith('data:')) {
-          fd.append('photos[]', this.$axios.dataURLtoBlob(val))
+          fd.append('photos[]', this.$axios.dataURLtoBlob(val), `${key}.jpg`)
         } else {
           fd.append('photos[]', val)
         }

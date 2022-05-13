@@ -306,9 +306,9 @@ export default {
         fd.append('period_end', this.sickLeavePeriod.to)
       }
 
-      _.each(this.photos, (val) => {
+      _.each(this.photos, (val, key) => {
         if (val.startsWith('data:')) {
-          fd.append('photos[]', this.$axios.dataURLtoBlob(val))
+          fd.append('photos[]', this.$axios.dataURLtoBlob(val), `${key}.jpg`)
         } else {
           fd.append('photos[]', val)
         }
@@ -337,9 +337,9 @@ export default {
         this.errors[key] = null
       })
       fd.append('period_end', this.periodEnd)
-      _.each(this.photos, (val) => {
+      _.each(this.photos, (val, key) => {
         if (val.startsWith('data:')) {
-          fd.append('photos[]', this.$axios.dataURLtoBlob(val))
+          fd.append('photos[]', this.$axios.dataURLtoBlob(val), `${key}.jpg`)
         } else {
           fd.append('photos[]', val)
         }
@@ -416,9 +416,8 @@ export default {
     async photoSelect () {
       navigator.camera.getPicture(
         data => { // on success
-          console.log(data)
           this.photos.push(`data:image/jpeg;base64,${data}`)
-          console.log(this.images)
+          console.log(data)
         },
         () => { // on fail
           this.$q.notify('Could not access device camera.')

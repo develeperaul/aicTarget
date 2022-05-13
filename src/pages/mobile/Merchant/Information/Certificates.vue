@@ -320,11 +320,15 @@ export default {
       if (from !== undefined && to !== undefined) {
         this.displayedPeriod = from + " - " + to;
       } else {
-        this.period = {};
-        this.displayedPeriod = null;
+        //- this.period = {};
+        //- this.displayedPeriod = null;
       }
     }
+
+    
+    
   },
+  
   mounted() {
     // const date = new Date()
     // console.log(date)

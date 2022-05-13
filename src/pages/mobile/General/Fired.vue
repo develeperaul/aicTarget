@@ -25,8 +25,8 @@
         q-item-label
           OriginalButton.q-my-sm(
             color="red-2"
-            @click="modal = true"
-          ) Заполнить анкету
+            @click="logOut()"
+          ) Закрыть
     q-dialog(
       v-model="modal"
       persistent
@@ -240,6 +240,13 @@ export default {
     }
   },
   methods: {
+    logOut () {
+      this.$q.localStorage.remove('token')
+      this.$router.push('/auth')
+      setTimeout(() => {
+        window.location.reload()
+      }, 100)
+    },
     isSelectedRadio (key) {
       return (
         this.radios.first === key ||
