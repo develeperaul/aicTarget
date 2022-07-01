@@ -24,10 +24,10 @@
                     @click="dialog.open = true"
                   )
                     .q-pl-xs Выйти
-    q-item
-      q-item-section
-        q-item-label.text-h4.text-weight-bolder.q-mb-md
-          | Запрос справок
+    //- q-item
+    //-   q-item-section
+    //-     q-item-label.text-h4.text-weight-bolder.q-mb-md
+    //-       | Запрос справок
     q-list.q-px-md(separator)
       q-item.no-padding(
         v-for="(certificate, key) in certificates"
@@ -324,11 +324,8 @@ export default {
         //- this.displayedPeriod = null;
       }
     }
-
-    
-    
   },
-  
+
   mounted() {
     // const date = new Date()
     // console.log(date)

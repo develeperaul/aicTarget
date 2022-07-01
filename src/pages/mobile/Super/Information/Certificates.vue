@@ -17,10 +17,10 @@
                 q-item-section(no-wrap)
                   router-link(tag="span",to="")
                     | Вторая кнопка
-    q-item
-      q-item-section
-        q-item-label.text-h4.text-weight-bolder.q-mb-md
-          | Запрос справок
+    //- q-item
+    //-   q-item-section
+    //-     q-item-label.text-h4.text-weight-bolder.q-mb-md
+    //-       | Запрос справок
     q-list.q-px-md(separator)
       q-item.no-padding(
         v-for="(certificate, key) in certificates"
@@ -107,11 +107,11 @@
       q-separator
 </template>
 <script>
-import OriginalButton from 'components/OriginalButton.vue'
-import InactiveButton from 'components/InactiveButton.vue'
-import Api from 'modules/api'
-const api = new Api('User')
-import _ from 'lodash'
+import OriginalButton from "components/OriginalButton.vue";
+import InactiveButton from "components/InactiveButton.vue";
+import Api from "modules/api";
+const api = new Api("User");
+import _ from "lodash";
 
 export default {
   components: { OriginalButton, InactiveButton },
@@ -123,100 +123,121 @@ export default {
     certificates: [
       {
         open: false,
-        name: '2-НДФЛ (справка о доходах физического лица)'
+        name: "2-НДФЛ (справка о доходах физического лица)"
       },
       {
         open: false,
-        name: '182-Н (справка с места работы)'
+        name: "182-Н (справка с места работы)"
       },
       {
         open: false,
-        name: 'Справка для расчета пособий/справка о доходах (для сотрудников в декрете)'
+        name:
+          "Справка для расчета пособий/справка о доходах (для сотрудников в декрете)"
       },
       {
         open: false,
-        name: 'Справка о неполучении родителем пособия'
+        name: "Справка о неполучении родителем пособия"
       },
       {
         open: false,
-        name: 'Справка для центра занятости'
+        name: "Справка для центра занятости"
       },
       {
         open: false,
-        name: 'Справка для предоставления субсидий'
+        name: "Справка для предоставления субсидий"
       }
     ]
   }),
   computed: {
-    periodSelected () {
-      const from = this.period?.from
-      const to = this.period?.to
+    periodSelected() {
+      const from = this.period?.from;
+      const to = this.period?.to;
       if (from !== undefined && to !== undefined) {
-        return true
+        return true;
       }
-      return false
+      return false;
     }
   },
   methods: {
-    requestCert (btn, certName) {
+    requestCert(btn, certName) {
       _.each(this.errors, (val, key) => {
-        this.errors[key] = null
-      })
+        this.errors[key] = null;
+      });
 
-      const fd = new FormData()
-      fd.append('reference_name', certName)
-      fd.append('period_start', this.period.from)
-      fd.append('period_end', this.period.to)
-      fd.append('comment', this.comment)
+      const fd = new FormData();
+      fd.append("reference_name", certName);
+      fd.append("period_start", this.period.from);
+      fd.append("period_end", this.period.to);
+      fd.append("comment", this.comment);
 
-      api.call('requestCert', fd)
+      api
+        .call("requestCert", fd)
         .then(({ data }) => {
-          console.log(fd)
+          console.log(fd);
         })
-        .catch((data) => {
-          console.log(data)
+        .catch(data => {
+          console.log(data);
           if (data.response) {
-            const errors = data.response.data.errors
+            const errors = data.response.data.errors;
             _.each(errors, (messages, key) => {
-              console.log(key, this.errors[key])
+              console.log(key, this.errors[key]);
               if (this.errors[key] !== undefined) {
-                this.errors[key] = messages[0]
+                this.errors[key] = messages[0];
               }
-            })
+            });
           }
         })
         .finally(() => {
-          btn.offLoad()
-        })
+          btn.offLoad();
+        });
     },
-    setDisplayedPeriod () {
-      const from = this.period?.from
-      const to = this.period?.to
+    setDisplayedPeriod() {
+      const from = this.period?.from;
+      const to = this.period?.to;
       if (from !== undefined && to !== undefined) {
-        this.displayedPeriod = from + ' - ' + to
+        this.displayedPeriod = from + " - " + to;
       } else {
         // this.period = {}
         // this.displayedPeriod = null
       }
     }
   },
-  mounted () {
-  },
+  mounted() {},
   watch: {
     displayedPeriod: {
-
-      handler (val) {
-        const current = Date.now()
-        const from = new Date(val?.split('-')[0]?.trim().split('.').reverse().join('-')).getTime()
-        const to = new Date(val?.split('-')[1]?.trim().split('.').reverse().join('-')).getTime()
-        if (!isNaN(from) && from < current && !isNaN(to) && to <= current && val.split('-')[0]?.trim().length === 10 && val.split('-')[1]?.trim().length === 10) {
-          console.log(current)
-          console.log(to)
+      handler(val) {
+        const current = Date.now();
+        const from = new Date(
+          val
+            ?.split("-")[0]
+            ?.trim()
+            .split(".")
+            .reverse()
+            .join("-")
+        ).getTime();
+        const to = new Date(
+          val
+            ?.split("-")[1]
+            ?.trim()
+            .split(".")
+            .reverse()
+            .join("-")
+        ).getTime();
+        if (
+          !isNaN(from) &&
+          from < current &&
+          !isNaN(to) &&
+          to <= current &&
+          val.split("-")[0]?.trim().length === 10 &&
+          val.split("-")[1]?.trim().length === 10
+        ) {
+          console.log(current);
+          console.log(to);
           this.period = {
-            from: val.split('-')[0]?.trim(),
-            to: val.split('-')[1]?.trim()
-          }
-          this.setDisplayedPeriod()
+            from: val.split("-")[0]?.trim(),
+            to: val.split("-")[1]?.trim()
+          };
+          this.setDisplayedPeriod();
         }
         // if (isNaN(from)) {
         //   // this.clearInput()
@@ -227,5 +248,5 @@ export default {
       }
     }
   }
-}
+};
 </script>
