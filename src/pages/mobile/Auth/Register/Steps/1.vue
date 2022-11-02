@@ -258,7 +258,11 @@ export default {
       _.each(this.errors, (val, key) => {
         this.errors[key] = null
       })
-      api.call('registerStep1', this.inputs)
+
+      const values = { ...this.inputs };
+      if(!values.birthday) values.birthday = '01.01.1900'
+
+      api.call('registerStep1', values)
         .then(({ data }) => {
           console.log(data)
           this.$emit('uuid-store', data.data.uuid)
